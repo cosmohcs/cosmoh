@@ -54,7 +54,6 @@
             cursor: crosshair;
         }
 
-        /* Effet CRT Global */
         .crt::before {
             content: " ";
             display: block;
@@ -67,7 +66,6 @@
             opacity: 0.4;
         }
 
-        /* Navigation Links Style */
         .nav-item {
             font-family: 'Metal Mania', display;
             font-size: 3.5rem;
@@ -99,7 +97,9 @@
             transform-origin: left;
         }
 
-        /* Sections Logic - MODIFIÉ POUR DOUCEUR */
+        /* --- GESTION DES TRANSITIONS --- */
+        
+        /* Transition standard rapide pour la navigation (Shows/Shop) */
         .page-section {
             display: none;
             min-height: 100vh;
@@ -109,15 +109,24 @@
             align-items: center;
             justify-content: center;
             opacity: 0;
-            /* Transition beaucoup plus lente (1s) pour le smooth */
-            transition: opacity 1.2s ease-in-out; 
+            /* Retour à une transition rapide */
+            transition: opacity 0.4s ease-out; 
+            position: absolute; /* Important pour les superpositions */
+            top: 0; left: 0;
         }
+        
         .page-section.active {
             display: flex;
             opacity: 1;
+            z-index: 10;
         }
 
-        /* Back Button */
+        /* Splash Screen spécifique (Z-index très haut pour être au dessus) */
+        #splash {
+            z-index: 9000;
+            transition: opacity 2s ease-in-out; /* Fondu très lent uniquement pour le splash */
+        }
+
         .back-btn {
             position: absolute;
             top: 20px;
@@ -136,24 +145,19 @@
             background: #ff0000;
         }
 
-        /* --- CALQUE TRANSITION VIDEO AMÉLIORÉ --- */
+        /* Calque Vidéo */
         #transition-layer {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9998;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 5000;
             background-color: #000;
             display: none;
             justify-content: center;
             align-items: center;
             opacity: 1;
-            /* Transition d'opacité ajoutée pour le fondu de sortie */
-            transition: opacity 1.5s ease-out;
+            transition: opacity 1.5s ease-out; /* Fondu de la vidéo */
         }
         
-        /* Classe pour déclencher le fondu de disparition */
         #transition-layer.fade-out {
             opacity: 0;
             pointer-events: none;
@@ -168,23 +172,22 @@
 
     </style>
 </head>
-<body class="crt bg-black">
+<body class="crt bg-black overflow-hidden relative h-screen w-screen">
 
     <div id="transition-layer">
         <video id="transition-video" muted playsinline>
             <source src="images/transition.mp4" type="video/mp4">
-            Votre navigateur ne supporte pas la vidéo.
         </video>
     </div>
 
-    <section id="splash" class="page-section active z-[100] fixed inset-0 bg-black">
+    <section id="splash" class="page-section active bg-black">
         <div class="relative w-80 h-80">
             <img src="images/image_19.png" alt="Snake" class="w-full h-full object-contain animate-glitch filter contrast-125">
         </div>
         <div class="mt-4 text-red-600 animate-pulse text-2xl tracking-widest">LOADING SYSTEM...</div>
     </section>
 
-    <section id="home" class="page-section relative">
+    <section id="home" class="page-section bg-black">
         <div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
             <img src="images/image_19.png" class="absolute top-10 right-10 w-40 animate-spin-slow opacity-50 mix-blend-difference">
             <img src="images/image_19.png" class="absolute bottom-10 left-10 w-60 animate-float opacity-30 invert">
@@ -200,14 +203,14 @@
             <div class="nav-item" onclick="navigateTo('shop')">SHOP</div>
         </nav>
 
-        <div class="fixed bottom-0 w-full bg-red-600 text-black text-xl overflow-hidden whitespace-nowrap border-t border-white">
+        <div class="fixed bottom-0 w-full bg-red-600 text-black text-xl overflow-hidden whitespace-nowrap border-t border-white z-50">
             <div class="inline-block animate-[scroll_10s_linear_infinite] py-1">
                 WELCOME TO THE VOID *** COSMOH ONLINE *** SORCELLERIE OUT NOW *** WELCOME TO THE VOID ***
             </div>
         </div>
     </section>
 
-    <section id="shows" class="page-section bg-neutral-900 relative">
+    <section id="shows" class="page-section bg-neutral-900">
         <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
         
         <h2 class="text-6xl font-metal text-red-600 mb-12 border-b-2 border-white pb-2">ARCHIVES</h2>
@@ -241,10 +244,10 @@
         </div>
     </section>
 
-    <section id="stream" class="page-section relative">
+    <section id="stream" class="page-section bg-black">
         <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
 
-        <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-20">
             
             <div class="flex flex-col items-center">
                 <div class="relative w-72 h-72 border-4 border-white shadow-[10px_10px_0px_#ff0000] mb-8">
@@ -271,15 +274,22 @@
                     <i class="fab fa-deezer text-2xl"></i>
                 </a>
 
-                <div class="mt-6 w-full aspect-video border-2 border-red-600 bg-black relative">
+                <div class="mt-6 w-full aspect-video border-2 border-red-600 bg-black relative group cursor-pointer overflow-hidden" 
+                     onclick="this.innerHTML='<iframe class=\'w-full h-full\' src=\'https://www.youtube.com/embed/ECHCOakj5Xs?autoplay=1\' frameborder=\'0\' allow=\'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen></iframe>'">
+                    
+                    <img src="https://img.youtube.com/vi/ECHCOakj5Xs/maxresdefault.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+                    
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <i class="fas fa-play text-6xl text-white drop-shadow-[0_0_10px_red] group-hover:scale-110 transition-transform"></i>
+                    </div>
                     <div class="absolute -top-6 left-0 text-red-600 font-pixel">WATCH VIDEO_CLIP.mp4</div>
-                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/ECHCOakj5Xs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <section id="shop" class="page-section bg-black relative overflow-hidden">
+    <section id="shop" class="page-section bg-black">
         <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
 
         <div class="absolute inset-0 flex justify-center items-center opacity-10 pointer-events-none">
@@ -300,27 +310,20 @@
     <script>
         const transitionLayer = document.getElementById('transition-layer');
         const transitionVideo = document.getElementById('transition-video');
+        const splash = document.getElementById('splash');
 
         function navigateTo(pageId) {
-            
             if (pageId === 'stream') {
-                // 1. Reset layer
+                // Gestion transition vidéo
                 transitionLayer.classList.remove('fade-out');
                 transitionLayer.style.display = 'flex';
-                
-                // 2. Play Video
                 transitionVideo.play();
                 
-                // 3. Pendant que la vidéo joue, on prépare la page en dessous
-                // On affiche la section Stream mais elle est cachée par la vidéo (z-index)
+                // On affiche la section Stream "derrière" la vidéo
                 performNavigation(pageId); 
 
                 transitionVideo.onended = function() {
-                    // 4. La vidéo est finie : on fait le fondu
-                    // On ajoute la classe CSS qui met l'opacité à 0 doucement
                     transitionLayer.classList.add('fade-out');
-
-                    // 5. On attend la fin du fondu CSS (1.5s) pour cacher le calque
                     setTimeout(() => {
                         transitionLayer.style.display = 'none';
                     }, 1500); 
@@ -330,43 +333,48 @@
             }
         }
 
-        // Fonction de navigation "Smooth" améliorée
         function performNavigation(pageId) {
-            // Identifier la section active actuelle pour la faire disparaître proprement
-            const currentActive = document.querySelector('.page-section.active');
-            
-            // Afficher la cible
-            const target = document.getElementById(pageId);
-            
-            if (currentActive) {
-                // Fade out l'actuelle
-                currentActive.classList.remove('active');
-                
-                // Attendre la fin du fade out CSS (1.2s) avant de cacher (display:none) et d'afficher la nouvelle
-                setTimeout(() => {
-                    currentActive.style.display = 'none';
-                    
-                    // Fade in la nouvelle
-                    target.style.display = 'flex';
-                    // Petit délai pour permettre au navigateur de rendre le display:flex avant d'ajouter l'opacité
-                    requestAnimationFrame(() => {
-                        target.classList.add('active');
-                    });
-                }, 1000); // On attend un peu moins que la transition CSS pour un léger chevauchement fluide
-            } else {
-                // Premier chargement (Splash -> Home)
-                target.style.display = 'flex';
-                setTimeout(() => {
-                    target.classList.add('active');
-                }, 50);
-            }
+            // Pour la navigation standard, on utilise la transition CSS de 0.4s
+            document.querySelectorAll('.page-section').forEach(section => {
+                if(section.id !== 'splash') { // On ne touche pas au splash ici
+                    if (section.id === pageId) {
+                        section.style.display = 'flex';
+                        // Délai infime pour activer l'opacité
+                        setTimeout(() => section.classList.add('active'), 10);
+                    } else {
+                        section.classList.remove('active');
+                        setTimeout(() => {
+                            if (!section.classList.contains('active')) section.style.display = 'none';
+                        }, 400); // Correspond au 0.4s du CSS
+                    }
+                }
+            });
         }
 
+        // Chargement initial avec Cross-fade (Fondu enchaîné)
         document.addEventListener('DOMContentLoaded', () => {
-            // Intro plus longue et plus douce
+            
+            // On prépare la home derrière le splash mais invisible
+            const home = document.getElementById('home');
+            home.style.display = 'flex';
+            home.style.opacity = '0';
+
             setTimeout(() => {
-                navigateTo('home');
-            }, 3500);
+                // 1. On fait apparaitre la home
+                home.style.transition = "opacity 1s ease-in";
+                home.style.opacity = '1';
+                home.classList.add('active');
+
+                // 2. En même temps, on fait disparaitre le splash
+                // Le splash a déjà une transition CSS de 2s définie
+                splash.style.opacity = '0';
+
+                // 3. Une fois le fondu fini, on retire le splash du DOM
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                }, 2000);
+
+            }, 2500); // Déclenchement après 2.5s de chargement
         });
 
         document.head.insertAdjacentHTML("beforeend", `<style>
