@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>COSMOH HUB</title>
+    <title>COSMOH | HUB</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=VT323&family=Metal+Mania&family=Rubik+Glitch&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
@@ -20,31 +20,24 @@
                         'gothic': ['"UnifrakturMaguntia"', 'cursive'],
                         'pixel': ['"VT323"', 'monospace'],
                         'metal': ['"Metal Mania"', 'display'],
-                        'glitch': ['"Rubik Glitch"', 'display'],
                     },
                     animation: {
-                        'glitch-intro': 'glitchIntro 0.3s cubic-bezier(.25, .46, .45, .94) both infinite',
-                        'float-random': 'floatRandom 4s ease-in-out infinite',
-                        'spin-slow': 'spin 20s linear infinite',
-                        'pulse-fast': 'pulse 0.1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'flicker': 'flicker 0.2s infinite text-shadow',
+                        'glitch': 'glitch 0.2s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'spin-slow': 'spin 15s linear infinite',
                     },
                     keyframes: {
-                        glitchIntro: {
+                        glitch: {
                             '0%': { transform: 'translate(0)' },
-                            '20%': { transform: 'translate(-3px, 3px)' },
-                            '40%': { transform: 'translate(-3px, -3px)' },
-                            '60%': { transform: 'translate(3px, 3px)' },
-                            '80%': { transform: 'translate(3px, -3px)' },
+                            '20%': { transform: 'translate(-2px, 2px)' },
+                            '40%': { transform: 'translate(-2px, -2px)' },
+                            '60%': { transform: 'translate(2px, 2px)' },
+                            '80%': { transform: 'translate(2px, -2px)' },
                             '100%': { transform: 'translate(0)' }
                         },
-                        floatRandom: {
-                            '0%, 100%': { transform: 'translate(0, 0) rotate(0deg)' },
-                            '50%': { transform: 'translate(10px, -10px) rotate(3deg)' },
-                        },
-                        flicker: {
-                            '0%, 100%': { opacity: 1 },
-                            '50%': { opacity: 0.8 },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
                         }
                     }
                 }
@@ -56,15 +49,13 @@
         body {
             background-color: #000;
             color: #fff;
-            /* Curseur personnalisé style vieux PC */
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-cursor-fill" viewBox="0 0 16 16"><path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z"/></svg>'), auto;
-            overflow: hidden; /* Force le layout sur un seul écran */
-            height: 100vh;
-            width: 100vw;
+            overflow-x: hidden;
+            font-family: 'VT323', monospace;
+            cursor: crosshair;
         }
 
-        /* Effet écran cathodique (CRT) par dessus tout */
-        .crt::after {
+        /* Effet CRT Global */
+        .crt::before {
             content: " ";
             display: block;
             position: fixed;
@@ -73,197 +64,236 @@
             z-index: 9999;
             background-size: 100% 2px, 3px 100%;
             pointer-events: none;
-            opacity: 0.6;
+            opacity: 0.4;
         }
 
-        /* Rendu pixelisé pour les images */
-        .raw-img {
-            image-rendering: pixelated;
-            filter: contrast(120%) brightness(0.9);
-        }
-
-        /* Style des liens du menu principal */
-        .menu-link {
-            position: relative;
-            font-family: 'VT323', monospace;
-            font-size: 3rem; /* Très gros */
+        /* Navigation Links Style */
+        .nav-item {
+            font-family: 'Metal Mania', display;
+            font-size: 3.5rem;
             line-height: 1;
-            color: #fff;
             text-transform: uppercase;
-            transition: all 0.1s;
-            text-shadow: 2px 2px 0px #000;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
         }
-        .menu-link:hover {
+        .nav-item:hover {
             color: #ff0000;
-            text-shadow: 4px 4px 0px #fff;
-            transform: skewX(-10deg);
+            text-shadow: 0 0 10px #ff0000;
+            letter-spacing: 5px;
         }
-        .menu-link::before {
-            content: attr(data-text);
+        .nav-item::after {
+            content: '';
             position: absolute;
-            top: 0; left: 0;
-            opacity: 0;
-            color: #ff0000;
-            z-index: -1;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #ff0000;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease-out;
         }
-        .menu-link:hover::before {
-            opacity: 1;
-            animation: glitchIntro 0.2s infinite;
-            filter: blur(2px);
+        .nav-item:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
 
-        /* Modal logic */
-        .modal {
+        /* Sections Logic */
+        .page-section {
             display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 100;
+            min-height: 100vh;
+            width: 100%;
+            padding: 20px;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
         }
-        .modal.active {
+        .page-section.active {
             display: flex;
-            animation: fadeIn 0.2s ease-out;
-        }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* Splash Screen Exit Animation */
-        #splash {
-            animation: fadeOutSplash 0.5s ease-in-out forwards;
-            animation-delay: 3s; /* Temps d'affichage du serpent */
-            pointer-events: none;
-        }
-        @keyframes fadeOutSplash {
-            to { opacity: 0; visibility: hidden; transform: scale(1.1); }
+            opacity: 1;
         }
 
-        /* Style bouton plateforme streaming */
-        .stream-plat-btn {
-            border: 2px solid #fff;
-            background: #000;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Back Button */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
             font-family: 'VT323', monospace;
             font-size: 1.5rem;
-            transition: 0.1s;
+            color: #666;
+            cursor: pointer;
+            z-index: 50;
+            border: 1px solid #333;
+            padding: 5px 15px;
         }
-        .stream-plat-btn:hover {
-            background: #ff0000;
+        .back-btn:hover {
+            color: #fff;
             border-color: #ff0000;
-            color: #000;
-            box-shadow: 4px 4px 0px #fff;
-            transform: translate(-2px, -2px);
+            background: #ff0000;
         }
+
     </style>
 </head>
-<body class="crt">
+<body class="crt bg-black">
 
-    <div id="splash" class="fixed inset-0 bg-black z-[1000] flex flex-col items-center justify-center">
-        <div class="relative w-72 h-72 md:w-96 md:h-96">
-             <img src="images/image_19.png" alt="Loading Snake" class="w-full h-full object-contain animate-glitch-intro filter drop-shadow-[0_0_20px_rgba(255,0,0,0.7)]">
+    <section id="splash" class="page-section active z-[100] fixed inset-0 bg-black">
+        <div class="relative w-80 h-80">
+            <img src="images/image_19.png" alt="Snake" class="w-full h-full object-contain animate-glitch filter contrast-125">
         </div>
-        <h2 class="mt-6 font-pixel text-3xl text-red-600 animate-pulse tracking-widest">INITIALIZING...</h2>
-    </div>
+        <div class="mt-4 text-red-600 animate-pulse text-2xl tracking-widest">LOADING SYSTEM...</div>
+    </section>
 
-
-    <div class="fixed inset-0 z-[-1] opacity-20 pointer-events-none overflow-hidden">
-        <img src="images/image_19.png" class="absolute top-[-10%] left-[-10%] w-64 grayscale invert animate-spin-slow opacity-50">
-        <img src="images/image_19.png" class="absolute bottom-[-10%] right-[-10%] w-80 mix-blend-overlay animate-float-random opacity-30">
-        <div class="w-full h-full" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAAXNSR0IArs4c6QAAADNJREFUGBljYAAigbz/QNLIECEIE4JLgmkMJgQSB5E4SCL8T3AkCCGIw2VIU4xwAwA5cBA3U/eU1AAAAABJRU5ErkJggg=='); background-size: 4px 4px; opacity: 0.3;"></div>
-    </div>
-
-
-    <main class="relative z-10 w-full h-full flex flex-col items-center justify-evenly pb-10 pt-4">
-
-        <div class="text-center relative group shrink-0">
-            <h1 class="text-[6rem] md:text-[9rem] font-metal leading-none text-white select-none relative z-20 hover:text-red-600 transition-colors animate-flicker" style="text-shadow: 3px 3px 0px #ff0000;">
-                COSMOH
-            </h1>
+    <section id="home" class="page-section relative">
+        <div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+            <img src="images/image_19.png" class="absolute top-10 right-10 w-40 animate-spin-slow opacity-50 mix-blend-difference">
+            <img src="images/image_19.png" class="absolute bottom-10 left-10 w-60 animate-float opacity-30 invert">
         </div>
 
-        <nav class="flex flex-col md:flex-row gap-4 md:gap-12 items-center justify-center shrink-0 z-50 my-4">
-            
-            <a href="#" class="menu-link" data-text="SHOWS">SHOWS</a>
+        <h1 class="text-[5rem] md:text-[8rem] font-metal text-white mb-12 z-10 animate-float text-center leading-none select-none">
+            COSMOH
+        </h1>
 
-            <button onclick="openModal('stream-modal')" class="menu-link text-red-600 animate-pulse-fast" data-text="STREAM">
-                [ STREAM ]
-            </button>
-
-            <a href="#" class="menu-link" data-text="SHOP">SHOP</a>
+        <nav class="flex flex-col gap-8 z-10 text-center">
+            <div class="nav-item" onclick="navigateTo('shows')">SHOWS</div>
+            <div class="nav-item text-red-600" onclick="navigateTo('stream')">STREAM</div>
+            <div class="nav-item" onclick="navigateTo('shop')">SHOP</div>
         </nav>
 
-        <div class="relative w-56 h-56 md:w-72 md:h-72 border-4 border-white group cursor-pointer hover:border-red-600 transition-all shrink-0 hover:scale-105 hover:rotate-2">
-            <img src="images/cover sorcellerie.jpeg" alt="Sorcellerie" class="w-full h-full object-cover raw-img">
-            
-            <div class="absolute -top-5 -right-8 bg-red-600 text-black font-glitch text-2xl px-3 py-1 rotate-12 border-2 border-black shadow-[4px_4px_0px_#fff] animate-bounce z-30">
-                NEW DROP!
+        <div class="fixed bottom-0 w-full bg-red-600 text-black text-xl overflow-hidden whitespace-nowrap border-t border-white">
+            <div class="inline-block animate-[scroll_10s_linear_infinite] py-1">
+                WELCOME TO THE VOID *** COSMOH ONLINE *** SORCELLERIE OUT NOW *** WELCOME TO THE VOID ***
             </div>
         </div>
-    </main>
+    </section>
 
-    <div class="fixed bottom-0 left-0 w-full bg-black text-red-600 font-pixel text-2xl border-t-4 border-red-600 overflow-hidden whitespace-nowrap py-2 z-50 leading-none">
-        <div class="inline-block animate-[scroll_8s_linear_infinite]">
-             <i class="fas fa-skull"></i> SORCELLERIE OUT NOW <i class="fas fa-skull"></i> CLICK STREAM <i class="fas fa-skull"></i> WEBCORE DARKNESS <i class="fas fa-skull"></i> COSMOH SEASON <i class="fas fa-skull"></i>
-        </div>
-    </div>
+    <section id="shows" class="page-section bg-neutral-900 relative">
+        <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
+        
+        <h2 class="text-6xl font-metal text-red-600 mb-12 border-b-2 border-white pb-2">ARCHIVES</h2>
 
-
-    <div id="stream-modal" class="modal">
-        <div class="relative bg-black border-4 border-red-600 p-1 max-w-md w-[90%] shadow-[15px_15px_0px_rgba(255,255,255,0.3)]">
-            
-            <div class="bg-red-600 text-black font-pixel text-xl font-bold px-3 py-2 flex justify-between items-center mb-1 cursor-move">
-                <span>c:\music\sorcellerie.exe</span>
-                <button onclick="closeModal('stream-modal')" class="bg-black text-red-600 px-2 border border-black hover:bg-white hover:text-black font-bold">X</button>
-            </div>
-
-            <div class="p-6 bg-neutral-900 flex flex-col gap-4 relative overflow-hidden">
-                <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAAXNSR0IArs4c6QAAADNJREFUGBljYAAigbz/QNLIECEIE4JLgmkMJgQSB5E4SCL8T3AkCCGIw2VIU4xwAwA5cBA3U/eU1AAAAABJRU5ErkJggg==');"></div>
-                
-                <div class="flex items-center gap-4 mb-4 z-10">
-                    <img src="images/cover sorcellerie.jpeg" class="w-24 h-24 border-2 border-white raw-img">
+        <div class="w-full max-w-2xl space-y-6">
+            <div class="border border-gray-700 p-6 hover:bg-white hover:text-black transition-colors group relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-red-600 text-white text-xs px-2 py-1 font-bold">COMPLET</div>
+                <div class="flex justify-between items-end">
                     <div>
-                        <h3 class="font-metal text-4xl text-white leading-none mb-1">SORCELLERIE</h3>
-                        <p class="font-pixel text-red-600 text-xl">COSMOH</p>
+                        <h3 class="text-3xl font-metal mb-1">MADAME MOUSTACHE</h3>
+                        <p class="text-xl text-gray-500 group-hover:text-black">BRUXELLES, BE</p>
                     </div>
+                    <div class="text-2xl font-bold">FEV 2025</div>
                 </div>
+            </div>
 
-                <a href="LIEN_SPOTIFY" target="_blank" class="stream-plat-btn group z-10">
-                    <span>SPOTIFY</span> <i class="fab fa-spotify text-3xl text-green-500 group-hover:text-black"></i>
-                </a>
-                <a href="LIEN_APPLE" target="_blank" class="stream-plat-btn group z-10">
-                    <span>APPLE MUSIC</span> <i class="fab fa-apple text-3xl text-gray-400 group-hover:text-black"></i>
-                </a>
-                <a href="LIEN_DEEZER" target="_blank" class="stream-plat-btn group z-10">
-                    <span>DEEZER</span> <i class="fab fa-deezer text-3xl text-white group-hover:text-black"></i>
-                </a>
-                <a href="LIEN_YOUTUBE" target="_blank" class="stream-plat-btn group z-10">
-                    <span>YOUTUBE</span> <i class="fab fa-youtube text-3xl text-red-600 group-hover:text-black"></i>
-                </a>
-
+            <div class="border border-gray-700 p-6 hover:bg-white hover:text-black transition-colors group relative overflow-hidden">
+                 <div class="absolute top-0 right-0 bg-red-600 text-white text-xs px-2 py-1 font-bold">COMPLET</div>
+                <div class="flex justify-between items-end">
+                    <div>
+                        <h3 class="text-3xl font-metal mb-1">MOVIDA CLUB</h3>
+                        <p class="text-xl text-gray-500 group-hover:text-black">PARIS, FR</p>
+                    </div>
+                    <div class="text-2xl font-bold">FEV 2025</div>
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="mt-16 border-2 border-dashed border-red-600 p-4 animate-pulse">
+            <p class="text-2xl font-pixel text-red-600">>>> DATES DISPONIBLES PROCHAINEMENT <<<</p>
+        </div>
+    </section>
+
+    <section id="stream" class="page-section relative">
+        <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
+
+        <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            
+            <div class="flex flex-col items-center">
+                <div class="relative w-72 h-72 border-4 border-white shadow-[10px_10px_0px_#ff0000] mb-8">
+                    <img src="images/cover sorcellerie.jpeg" alt="Sorcellerie Cover" class="w-full h-full object-cover">
+                </div>
+                <h2 class="text-5xl font-metal text-center">SORCELLERIE</h2>
+                <p class="text-gray-400 font-pixel text-xl tracking-widest">SINGLE • 2026</p>
+            </div>
+
+            <div class="flex flex-col gap-4 w-full">
+                
+                <a href="TON_LIEN_SPOTIFY" target="_blank" class="bg-black border border-white p-4 flex justify-between items-center hover:bg-green-600 hover:text-black hover:border-black transition-all">
+                    <span class="font-pixel text-2xl">SPOTIFY</span>
+                    <i class="fab fa-spotify text-2xl"></i>
+                </a>
+                
+                <a href="TON_LIEN_APPLE" target="_blank" class="bg-black border border-white p-4 flex justify-between items-center hover:bg-gray-200 hover:text-black hover:border-black transition-all">
+                    <span class="font-pixel text-2xl">APPLE MUSIC</span>
+                    <i class="fab fa-apple text-2xl"></i>
+                </a>
+
+                <a href="TON_LIEN_DEEZER" target="_blank" class="bg-black border border-white p-4 flex justify-between items-center hover:bg-purple-600 hover:text-black hover:border-black transition-all">
+                    <span class="font-pixel text-2xl">DEEZER</span>
+                    <i class="fab fa-deezer text-2xl"></i>
+                </a>
+
+                <div class="mt-6 w-full aspect-video border-2 border-red-600 bg-black relative">
+                    <div class="absolute -top-6 left-0 text-red-600 font-pixel">WATCH VIDEO_CLIP.mp4</div>
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/ECHCOakj5Xs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="shop" class="page-section bg-black relative overflow-hidden">
+        <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
+
+        <div class="absolute inset-0 flex justify-center items-center opacity-10 pointer-events-none">
+            <i class="fas fa-lock text-[20rem]"></i>
+        </div>
+
+        <div class="z-10 text-center border-4 border-white p-10 bg-black max-w-lg shadow-[15px_15px_0px_#333]">
+            <h2 class="text-6xl font-metal text-white mb-4">SHOP CLOSED</h2>
+            <div class="w-full h-1 bg-red-600 mb-6"></div>
+            <p class="text-2xl font-pixel text-gray-300 mb-8 blink">ACCESS DENIED</p>
+            
+            <div class="bg-red-600 text-black font-bold p-2 text-xl inline-block rotate-2">
+                DISPONIBLE PROCHAINEMENT
+            </div>
+        </div>
+    </section>
 
     <script>
-        // Gestion de la modal
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-        }
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
+        // Logique de Navigation "Single Page App"
+        function navigateTo(pageId) {
+            // Cacher toutes les sections
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+                
+                // Petit délai pour laisser l'animation CSS se faire (optionnel, ici immédiat pour réactivité brute)
+                setTimeout(() => {
+                    if(section.id !== pageId) section.style.display = 'none';
+                }, 500);
+            });
+
+            // Afficher la section cible
+            const target = document.getElementById(pageId);
+            target.style.display = 'flex';
+            // Petit hack pour forcer le navigateur à prendre en compte le display flex avant de changer l'opacité
+            setTimeout(() => {
+                target.classList.add('active');
+            }, 10);
         }
 
-        // Animation "Scroll" pour le marquee footer
+        // Animation d'ouverture (Splash Screen)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                navigateTo('home');
+            }, 3000); // 3 secondes d'intro
+        });
+
+        // Animation Marquee
         document.head.insertAdjacentHTML("beforeend", `<style>
-            @keyframes scroll {
-                0% { transform: translateX(0); }
-                100% { transform: translateX(-50%); }
-            }
-        </style>`)
+            @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+            .blink { animation: blink 1s infinite; }
+            @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        </style>`);
     </script>
 </body>
 </html>
