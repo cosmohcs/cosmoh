@@ -2,10 +2,10 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COSMOH | SORCELLERIE | HUB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>COSMOH HUB</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=VT323&family=Metal+Mania&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=VT323&family=Metal+Mania&family=Rubik+Glitch&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
     <script>
@@ -15,32 +15,36 @@
                     colors: {
                         'void': '#000000',
                         'blood': '#ff0000',
-                        'term-green': '#00ff00',
                     },
                     fontFamily: {
                         'gothic': ['"UnifrakturMaguntia"', 'cursive'],
                         'pixel': ['"VT323"', 'monospace'],
                         'metal': ['"Metal Mania"', 'display'],
+                        'glitch': ['"Rubik Glitch"', 'display'],
                     },
                     animation: {
-                        'glitch-intro': 'glitchIntro 0.5s cubic-bezier(.25, .46, .45, .94) both infinite',
+                        'glitch-intro': 'glitchIntro 0.3s cubic-bezier(.25, .46, .45, .94) both infinite',
                         'float-random': 'floatRandom 4s ease-in-out infinite',
-                        'spin-slow': 'spin 15s linear infinite',
+                        'spin-slow': 'spin 20s linear infinite',
                         'pulse-fast': 'pulse 0.1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'flicker': 'flicker 0.2s infinite text-shadow',
                     },
                     keyframes: {
                         glitchIntro: {
                             '0%': { transform: 'translate(0)' },
-                            '20%': { transform: 'translate(-2px, 2px)' },
-                            '40%': { transform: 'translate(-2px, -2px)' },
-                            '60%': { transform: 'translate(2px, 2px)' },
-                            '80%': { transform: 'translate(2px, -2px)' },
+                            '20%': { transform: 'translate(-3px, 3px)' },
+                            '40%': { transform: 'translate(-3px, -3px)' },
+                            '60%': { transform: 'translate(3px, 3px)' },
+                            '80%': { transform: 'translate(3px, -3px)' },
                             '100%': { transform: 'translate(0)' }
                         },
                         floatRandom: {
                             '0%, 100%': { transform: 'translate(0, 0) rotate(0deg)' },
-                            '33%': { transform: 'translate(10px, -15px) rotate(5deg)' },
-                            '66%': { transform: 'translate(-5px, 10px) rotate(-5deg)' },
+                            '50%': { transform: 'translate(10px, -10px) rotate(3deg)' },
+                        },
+                        flicker: {
+                            '0%, 100%': { opacity: 1 },
+                            '50%': { opacity: 0.8 },
                         }
                     }
                 }
@@ -52,173 +56,194 @@
         body {
             background-color: #000;
             color: #fff;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23FF0000" d="M12 2L2 22l10-4 10 4L12 2z"/></svg>'), auto;
-            overflow: hidden; /* Empêche le scroll sur le hub principal */
+            /* Curseur personnalisé style vieux PC */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-cursor-fill" viewBox="0 0 16 16"><path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z"/></svg>'), auto;
+            overflow: hidden; /* Force le layout sur un seul écran */
+            height: 100vh;
+            width: 100vw;
         }
 
-        /* CRT Overlay - L'effet "vieil écran" indispensable au Webcore */
-        .crt::before {
+        /* Effet écran cathodique (CRT) par dessus tout */
+        .crt::after {
             content: " ";
             display: block;
-            position: absolute;
+            position: fixed;
             top: 0; left: 0; bottom: 0; right: 0;
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 100;
+            z-index: 9999;
             background-size: 100% 2px, 3px 100%;
             pointer-events: none;
+            opacity: 0.6;
         }
 
-        /* Raw Image styling */
-        .dithered {
-            filter: contrast(150%) brightness(0.8) grayscale(100%);
+        /* Rendu pixelisé pour les images */
+        .raw-img {
             image-rendering: pixelated;
-        }
-        .dithered:hover {
-            filter: contrast(120%) brightness(1.2) grayscale(0%) drop-shadow(0 0 10px red);
+            filter: contrast(120%) brightness(0.9);
         }
 
-        /* Webcore Button Style */
-        .webcore-btn {
-            background: #000;
-            border: 1px solid #333;
-            box-shadow: 4px 4px 0px #ff0000;
-            transition: 0s;
+        /* Style des liens du menu principal */
+        .menu-link {
+            position: relative;
+            font-family: 'VT323', monospace;
+            font-size: 3rem; /* Très gros */
+            line-height: 1;
+            color: #fff;
+            text-transform: uppercase;
+            transition: all 0.1s;
+            text-shadow: 2px 2px 0px #000;
         }
-        .webcore-btn:hover {
-            background: #ff0000;
-            color: #000;
-            box-shadow: 2px 2px 0px #fff;
-            transform: translate(2px, 2px);
+        .menu-link:hover {
+            color: #ff0000;
+            text-shadow: 4px 4px 0px #fff;
+            transform: skewX(-10deg);
         }
-        .webcore-btn:active {
-            transform: translate(4px, 4px);
-            box-shadow: none;
+        .menu-link::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0;
+            opacity: 0;
+            color: #ff0000;
+            z-index: -1;
+        }
+        .menu-link:hover::before {
+            opacity: 1;
+            animation: glitchIntro 0.2s infinite;
+            filter: blur(2px);
         }
 
         /* Modal logic */
         .modal {
             display: none;
             position: fixed;
-            top: 0; left: 0; w: 100%; h: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 50;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 100;
             justify-content: center;
             align-items: center;
+            backdrop-filter: blur(5px);
         }
         .modal.active {
             display: flex;
+            animation: fadeIn 0.2s ease-out;
         }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Splash Screen Animation */
+        /* Splash Screen Exit Animation */
         #splash {
-            animation: fadeOut 0.5s ease-in-out forwards;
-            animation-delay: 2.5s; /* Durée de l'intro */
+            animation: fadeOutSplash 0.5s ease-in-out forwards;
+            animation-delay: 3s; /* Temps d'affichage du serpent */
             pointer-events: none;
         }
-        @keyframes fadeOut {
-            to { opacity: 0; visibility: hidden; }
+        @keyframes fadeOutSplash {
+            to { opacity: 0; visibility: hidden; transform: scale(1.1); }
+        }
+
+        /* Style bouton plateforme streaming */
+        .stream-plat-btn {
+            border: 2px solid #fff;
+            background: #000;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'VT323', monospace;
+            font-size: 1.5rem;
+            transition: 0.1s;
+        }
+        .stream-plat-btn:hover {
+            background: #ff0000;
+            border-color: #ff0000;
+            color: #000;
+            box-shadow: 4px 4px 0px #fff;
+            transform: translate(-2px, -2px);
         }
     </style>
 </head>
-<body class="h-screen w-screen crt relative">
+<body class="crt">
 
-    <div id="splash" class="fixed inset-0 bg-black z-[999] flex flex-col items-center justify-center">
-        <div class="relative w-64 h-64 md:w-96 md:h-96">
-             <img src="images/image_51.png" alt="Loading Snake" class="w-full h-full object-contain animate-glitch-intro filter contrast-200 drop-shadow-[0_0_15px_rgba(255,0,0,0.8)]">
+    <div id="splash" class="fixed inset-0 bg-black z-[1000] flex flex-col items-center justify-center">
+        <div class="relative w-72 h-72 md:w-96 md:h-96">
+             <img src="images/image_19.png" alt="Loading Snake" class="w-full h-full object-contain animate-glitch-intro filter drop-shadow-[0_0_20px_rgba(255,0,0,0.7)]">
         </div>
-        <h2 class="mt-8 font-pixel text-2xl text-red-600 animate-pulse">LOADING SYSTEM...</h2>
+        <h2 class="mt-6 font-pixel text-3xl text-red-600 animate-pulse tracking-widest">INITIALIZING...</h2>
     </div>
 
 
-    <div class="absolute top-10 left-10 opacity-30 animate-spin-slow pointer-events-none">
-        <img src="images/image_51.png" class="w-40 grayscale invert" alt="">
+    <div class="fixed inset-0 z-[-1] opacity-20 pointer-events-none overflow-hidden">
+        <img src="images/image_19.png" class="absolute top-[-10%] left-[-10%] w-64 grayscale invert animate-spin-slow opacity-50">
+        <img src="images/image_19.png" class="absolute bottom-[-10%] right-[-10%] w-80 mix-blend-overlay animate-float-random opacity-30">
+        <div class="w-full h-full" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAAXNSR0IArs4c6QAAADNJREFUGBljYAAigbz/QNLIECEIE4JLgmkMJgQSB5E4SCL8T3AkCCGIw2VIU4xwAwA5cBA3U/eU1AAAAABJRU5ErkJggg=='); background-size: 4px 4px; opacity: 0.3;"></div>
     </div>
-    <div class="absolute bottom-20 right-10 opacity-30 animate-float-random pointer-events-none">
-        <img src="images/image_51.png" class="w-56 blur-sm mix-blend-screen" alt="">
-    </div>
-    <div class="fixed inset-0 z-[-1]" style="background-image: radial-gradient(#333 1px, transparent 1px); background-size: 20px 20px; opacity: 0.2;"></div>
 
 
-    <main class="relative z-10 w-full h-full flex flex-col items-center justify-center p-4">
+    <main class="relative z-10 w-full h-full flex flex-col items-center justify-evenly pb-10 pt-4">
 
-        <div class="text-center mb-8 relative group">
-            <h1 class="text-[5rem] md:text-[8rem] font-metal leading-none text-white mix-blend-difference select-none relative z-20 hover:text-red-600 transition-colors">
+        <div class="text-center relative group shrink-0">
+            <h1 class="text-[6rem] md:text-[9rem] font-metal leading-none text-white select-none relative z-20 hover:text-red-600 transition-colors animate-flicker" style="text-shadow: 3px 3px 0px #ff0000;">
                 COSMOH
             </h1>
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-10 bg-red-600 z-10 opacity-0 group-hover:opacity-100 animate-pulse-fast mix-blend-multiply"></div>
         </div>
 
-        <div class="relative w-64 h-64 md:w-80 md:h-80 mb-12 border-2 border-white group cursor-pointer hover:border-red-600 transition-colors">
-            <img src="images/cover sorcellerie.jpeg" alt="Sorcellerie" class="w-full h-full object-cover dithered">
-            <div class="absolute -top-6 -right-6 bg-red-600 text-black font-pixel text-xl px-2 rotate-12 border border-white animate-bounce">
-                NEW_DROP_!!!
-            </div>
-        </div>
-
-        <nav class="flex flex-col md:flex-row gap-6 md:gap-16 items-center">
+        <nav class="flex flex-col md:flex-row gap-4 md:gap-12 items-center justify-center shrink-0 z-50 my-4">
             
-            <a href="#" class="font-gothic text-4xl md:text-5xl hover:text-red-600 hover:scale-110 transition-transform relative group">
-                <span class="opacity-0 group-hover:opacity-100 absolute -left-6 text-sm font-pixel text-white">>></span>
-                SHOWS
-                <span class="block h-0.5 w-full bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
-            </a>
+            <a href="#" class="menu-link" data-text="SHOWS">SHOWS</a>
 
-            <button onclick="openModal('stream-modal')" class="font-gothic text-4xl md:text-5xl text-red-600 hover:text-white hover:scale-110 transition-transform relative group animate-pulse">
+            <button onclick="openModal('stream-modal')" class="menu-link text-red-600 animate-pulse-fast" data-text="STREAM">
                 [ STREAM ]
             </button>
 
-            <a href="#" class="font-gothic text-4xl md:text-5xl hover:text-red-600 hover:scale-110 transition-transform relative group">
-                SHOP
-                <span class="opacity-0 group-hover:opacity-100 absolute -right-6 text-sm font-pixel text-white"><<</span>
-                <span class="block h-0.5 w-full bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform origin-right"></span>
-            </a>
+            <a href="#" class="menu-link" data-text="SHOP">SHOP</a>
         </nav>
 
-        <div class="fixed bottom-0 left-0 w-full bg-red-600 text-black font-pixel text-xl border-t-2 border-white overflow-hidden whitespace-nowrap py-1">
-            <div class="inline-block animate-[scroll_10s_linear_infinite]">
-                SORCELLERIE OUT NOW *** LISTEN NOW *** DONT SLEEP *** SORCELLERIE *** WEBCORE *** PSYCHO *** SORCELLERIE OUT NOW ***
+        <div class="relative w-56 h-56 md:w-72 md:h-72 border-4 border-white group cursor-pointer hover:border-red-600 transition-all shrink-0 hover:scale-105 hover:rotate-2">
+            <img src="images/cover sorcellerie.jpeg" alt="Sorcellerie" class="w-full h-full object-cover raw-img">
+            
+            <div class="absolute -top-5 -right-8 bg-red-600 text-black font-glitch text-2xl px-3 py-1 rotate-12 border-2 border-black shadow-[4px_4px_0px_#fff] animate-bounce z-30">
+                NEW DROP!
             </div>
         </div>
     </main>
 
+    <div class="fixed bottom-0 left-0 w-full bg-black text-red-600 font-pixel text-2xl border-t-4 border-red-600 overflow-hidden whitespace-nowrap py-2 z-50 leading-none">
+        <div class="inline-block animate-[scroll_8s_linear_infinite]">
+             <i class="fas fa-skull"></i> SORCELLERIE OUT NOW <i class="fas fa-skull"></i> CLICK STREAM <i class="fas fa-skull"></i> WEBCORE DARKNESS <i class="fas fa-skull"></i> COSMOH SEASON <i class="fas fa-skull"></i>
+        </div>
+    </div>
 
-    <div id="stream-modal" class="modal w-full h-full">
-        <div class="relative bg-black border-2 border-red-600 p-2 max-w-sm w-full shadow-[10px_10px_0px_rgba(255,255,255,0.2)]">
+
+    <div id="stream-modal" class="modal">
+        <div class="relative bg-black border-4 border-red-600 p-1 max-w-md w-[90%] shadow-[15px_15px_0px_rgba(255,255,255,0.3)]">
             
-            <div class="bg-red-600 text-black font-pixel font-bold px-2 py-1 flex justify-between items-center mb-4 cursor-pointer">
-                <span>music_player.exe</span>
-                <button onclick="closeModal('stream-modal')" class="hover:bg-white hover:text-red-600 px-1">X</button>
+            <div class="bg-red-600 text-black font-pixel text-xl font-bold px-3 py-2 flex justify-between items-center mb-1 cursor-move">
+                <span>c:\music\sorcellerie.exe</span>
+                <button onclick="closeModal('stream-modal')" class="bg-black text-red-600 px-2 border border-black hover:bg-white hover:text-black font-bold">X</button>
             </div>
 
-            <div class="flex flex-col gap-4 p-4 bg-[url('https://www.transparenttextures.com/patterns/noise-lines.png')]">
+            <div class="p-6 bg-neutral-900 flex flex-col gap-4 relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAAXNSR0IArs4c6QAAADNJREFUGBljYAAigbz/QNLIECEIE4JLgmkMJgQSB5E4SCL8T3AkCCGIw2VIU4xwAwA5cBA3U/eU1AAAAABJRU5ErkJggg==');"></div>
                 
-                <h3 class="text-center font-metal text-3xl mb-2 text-white">SORCELLERIE</h3>
-
-                <a href="LIEN_SPOTIFY" target="_blank" class="webcore-btn flex items-center justify-between p-3 group">
-                    <span class="font-pixel text-xl tracking-widest group-hover:invert">SPOTIFY</span>
-                    <i class="fab fa-spotify text-2xl group-hover:invert"></i>
-                </a>
-
-                <a href="LIEN_APPLE" target="_blank" class="webcore-btn flex items-center justify-between p-3 group">
-                    <span class="font-pixel text-xl tracking-widest group-hover:invert">APPLE MUSIC</span>
-                    <i class="fab fa-apple text-2xl group-hover:invert"></i>
-                </a>
-
-                <a href="LIEN_DEEZER" target="_blank" class="webcore-btn flex items-center justify-between p-3 group">
-                    <span class="font-pixel text-xl tracking-widest group-hover:invert">DEEZER</span>
-                    <i class="fab fa-deezer text-2xl group-hover:invert"></i>
-                </a>
-
-                <a href="LIEN_YOUTUBE" target="_blank" class="webcore-btn flex items-center justify-between p-3 group">
-                    <span class="font-pixel text-xl tracking-widest group-hover:invert">YOUTUBE</span>
-                    <i class="fab fa-youtube text-2xl group-hover:invert"></i>
-                </a>
-
-                <div class="text-center mt-4">
-                    <button onclick="closeModal('stream-modal')" class="text-xs font-pixel text-gray-500 hover:text-red-600 underline">
-                        [ CLOSE WINDOW ]
-                    </button>
+                <div class="flex items-center gap-4 mb-4 z-10">
+                    <img src="images/cover sorcellerie.jpeg" class="w-24 h-24 border-2 border-white raw-img">
+                    <div>
+                        <h3 class="font-metal text-4xl text-white leading-none mb-1">SORCELLERIE</h3>
+                        <p class="font-pixel text-red-600 text-xl">COSMOH</p>
+                    </div>
                 </div>
+
+                <a href="LIEN_SPOTIFY" target="_blank" class="stream-plat-btn group z-10">
+                    <span>SPOTIFY</span> <i class="fab fa-spotify text-3xl text-green-500 group-hover:text-black"></i>
+                </a>
+                <a href="LIEN_APPLE" target="_blank" class="stream-plat-btn group z-10">
+                    <span>APPLE MUSIC</span> <i class="fab fa-apple text-3xl text-gray-400 group-hover:text-black"></i>
+                </a>
+                <a href="LIEN_DEEZER" target="_blank" class="stream-plat-btn group z-10">
+                    <span>DEEZER</span> <i class="fab fa-deezer text-3xl text-white group-hover:text-black"></i>
+                </a>
+                <a href="LIEN_YOUTUBE" target="_blank" class="stream-plat-btn group z-10">
+                    <span>YOUTUBE</span> <i class="fab fa-youtube text-3xl text-red-600 group-hover:text-black"></i>
+                </a>
+
             </div>
         </div>
     </div>
@@ -232,7 +257,7 @@
             document.getElementById(id).classList.remove('active');
         }
 
-        // Animation "Scroll" pour le marquee (si Tailwind ne la charge pas nativement)
+        // Animation "Scroll" pour le marquee footer
         document.head.insertAdjacentHTML("beforeend", `<style>
             @keyframes scroll {
                 0% { transform: translateX(0); }
