@@ -152,7 +152,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* C'est ici que la magie opère pour la transparence */
+            /* Transparence des noirs */
             mix-blend-mode: screen; 
         }
 
@@ -295,4 +295,53 @@
         // Logique de Navigation
         function navigateTo(pageId) {
             
-            // Si on va sur la page STREAM, on lance la vidéo
+            // Si on va sur la page STREAM, on lance la vidéo d'abord
+            if (pageId === 'stream') {
+                transitionLayer.style.display = 'flex';
+                transitionVideo.play();
+                
+                // Quand la vidéo est finie, on change de page
+                transitionVideo.onended = function() {
+                    transitionLayer.style.display = 'none';
+                    performNavigation(pageId);
+                };
+            } else {
+                // Navigation normale pour les autres pages
+                performNavigation(pageId);
+            }
+        }
+
+        // Fonction technique qui change réellement les sections
+        function performNavigation(pageId) {
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+                setTimeout(() => {
+                    if(section.id !== pageId) section.style.display = 'none';
+                }, 500);
+            });
+
+            const target = document.getElementById(pageId);
+            target.style.display = 'flex';
+            setTimeout(() => {
+                target.classList.add('active');
+            }, 10);
+        }
+
+        // --- CORRECTION MAJEURE ICI ---
+        // Utilisation de 'DOMContentLoaded' au lieu de 'load'
+        // Cela lance le script dès que le HTML est lu, sans attendre les images/vidéos lourdes
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                navigateTo('home');
+            }, 3000); // 3 secondes d'intro
+        });
+
+        // Styles dynamiques pour animations
+        document.head.insertAdjacentHTML("beforeend", `<style>
+            @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+            .blink { animation: blink 1s infinite; }
+            @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        </style>`);
+    </script>
+</body>
+</html>
