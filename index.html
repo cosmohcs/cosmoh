@@ -135,9 +135,37 @@
             background: #ff0000;
         }
 
+        /* --- CALQUE TRANSITION VIDEO --- */
+        #transition-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9998; /* Juste en dessous du CRT */
+            background-color: #000;
+            display: none; /* Caché par défaut */
+            justify-content: center;
+            align-items: center;
+        }
+        #transition-layer video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* C'est ici que la magie opère pour la transparence */
+            mix-blend-mode: screen; 
+        }
+
     </style>
 </head>
 <body class="crt bg-black">
+
+    <div id="transition-layer">
+        <video id="transition-video" muted playsinline>
+            <source src="images/transition.mp4" type="video/mp4">
+            Votre navigateur ne supporte pas la vidéo.
+        </video>
+    </div>
 
     <section id="splash" class="page-section active z-[100] fixed inset-0 bg-black">
         <div class="relative w-80 h-80">
@@ -260,40 +288,11 @@
     </section>
 
     <script>
-        // Logique de Navigation "Single Page App"
+        // Variables pour la transition vidéo
+        const transitionLayer = document.getElementById('transition-layer');
+        const transitionVideo = document.getElementById('transition-video');
+
+        // Logique de Navigation
         function navigateTo(pageId) {
-            // Cacher toutes les sections
-            document.querySelectorAll('.page-section').forEach(section => {
-                section.classList.remove('active');
-                
-                // Petit délai pour laisser l'animation CSS se faire (optionnel, ici immédiat pour réactivité brute)
-                setTimeout(() => {
-                    if(section.id !== pageId) section.style.display = 'none';
-                }, 500);
-            });
-
-            // Afficher la section cible
-            const target = document.getElementById(pageId);
-            target.style.display = 'flex';
-            // Petit hack pour forcer le navigateur à prendre en compte le display flex avant de changer l'opacité
-            setTimeout(() => {
-                target.classList.add('active');
-            }, 10);
-        }
-
-        // Animation d'ouverture (Splash Screen)
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                navigateTo('home');
-            }, 3000); // 3 secondes d'intro
-        });
-
-        // Animation Marquee
-        document.head.insertAdjacentHTML("beforeend", `<style>
-            @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-            .blink { animation: blink 1s infinite; }
-            @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        </style>`);
-    </script>
-</body>
-</html>
+            
+            // Si on va sur la page STREAM, on lance la vidéo
