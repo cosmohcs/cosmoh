@@ -234,7 +234,7 @@
             <nav class="flex flex-col gap-6 z-10 text-center">
                 <div class="nav-item" onclick="navigateTo('shows')">SHOWS</div>
                 <div class="nav-item text-red-600" onclick="navigateTo('stream')">STREAM</div>
-                <div class="nav-item animate-pulse" onclick="navigateTo('exclusive')">EXCLUSIVE</div>
+                <div class="nav-item" onclick="navigateTo('exclusive')">EXCLUSIVE</div>
                 <div class="nav-item" onclick="navigateTo('shop')">SHOP</div>
             </nav>
 
@@ -346,17 +346,17 @@
                                 <i class="fas fa-play" id="play-icon"></i>
                             </button>
                             <div class="text-left overflow-hidden">
-                                <div class="font-metal text-xl truncate w-48">RALLYE.mp3</div>
-                                <div class="font-pixel text-gray-500 text-sm">320kbps /// STEREO</div>
+                                <div class="font-metal text-xl truncate w-48">RALLYE.wav</div>
+                                <div class="font-pixel text-gray-500 text-sm">WAV /// LOSSLESS</div>
                             </div>
                         </div>
                         <div class="audio-progress" onclick="setProgress(event)">
                             <div class="audio-progress-bar" id="progress-bar"></div>
                         </div>
-                        <audio id="audio-file" src="images/exclu.mp3"></audio> 
+                        <audio id="audio-file" src="images/exclu.wav"></audio> 
                     </div>
 
-                    <a href="images/exclu.mp3" download class="bg-red-600 text-black font-bold font-pixel text-2xl px-8 py-4 border-4 border-white hover:bg-white hover:text-red-600 hover:border-red-600 transition-all shadow-[0_0_20px_red] inline-block">
+                    <a href="images/exclu.wav" download class="bg-red-600 text-black font-bold font-pixel text-2xl px-8 py-4 border-4 border-white hover:bg-white hover:text-red-600 hover:border-red-600 transition-all shadow-[0_0_20px_red] inline-block">
                         <i class="fas fa-save mr-2"></i> TÉLÉCHARGER
                     </a>
                     <p class="mt-4 font-pixel text-gray-500 text-sm">LE LIEN EXPIRE AUTOMATIQUEMENT</p>
@@ -445,57 +445,45 @@
             startCountdown();
         });
 
-        // --- LOGIQUE EXCLUSIVE / TIMER (3 ETATS) ---
+        // --- LOGIQUE EXCLUSIVE / TIMER ---
         
-        // CONFIGURATION DES DATES :
-        // DEBUT : 18 Janvier 2026 à 18h00
-        const startDate = new Date('2026-01-18T18:00:00');
-        // FIN : 19 Janvier 2026 à 18h00 (24h plus tard)
-        const endDate = new Date(startDate.getTime() + (24 * 60 * 60 * 1000)); 
-
         function startCountdown() {
             const timerElement = document.getElementById('countdown');
             const titleElement = document.getElementById('exclusive-title');
-            
             const stateUpcoming = document.getElementById('state-upcoming');
             const stateActive = document.getElementById('state-active');
             const stateExpired = document.getElementById('state-expired');
 
+            // --- DATE TRUQUÉE POUR AFFICHAGE IMMÉDIAT ---
+            // Le drop est considéré comme ayant commencé "hier" et finissant "demain"
+            const nowObj = new Date();
+            const startDate = new Date(nowObj.getTime() - (24 * 60 * 60 * 1000)); 
+            const endDate = new Date(nowObj.getTime() + (24 * 60 * 60 * 1000)); 
+
             const interval = setInterval(() => {
                 const now = new Date().getTime();
                 
-                // 1. SI ON EST AVANT LE DEBUT
+                // 1. AVANT
                 if (now < startDate.getTime()) {
-                    const distance = startDate.getTime() - now;
-                    
-                    titleElement.innerText = "*** DROP EN APPROCHE ***";
                     stateUpcoming.style.display = 'block';
                     stateActive.style.display = 'none';
-                    stateExpired.style.display = 'none';
-
-                    updateTimerDisplay(distance, timerElement);
                 } 
-                // 2. SI ON EST PENDANT LE DROP (ENTRE DEBUT ET FIN)
+                // 2. PENDANT
                 else if (now >= startDate.getTime() && now < endDate.getTime()) {
                     const distance = endDate.getTime() - now;
                     
-                    titleElement.innerText = "*** EXCLU 24H : RALLYE ***";
                     stateUpcoming.style.display = 'none';
                     stateActive.style.display = 'block';
                     stateExpired.style.display = 'none';
 
                     updateTimerDisplay(distance, timerElement);
                 } 
-                // 3. SI C'EST FINI
+                // 3. APRES
                 else {
                     clearInterval(interval);
-                    titleElement.innerText = "*** DROP TERMINÉ ***";
                     timerElement.innerText = "00:00:00";
-                    timerElement.classList.add('text-red-600'); // Rouge pour signaler la fin
-                    
-                    stateUpcoming.style.display = 'none';
                     stateActive.style.display = 'none';
-                    stateExpired.style.display = 'block'; // Affiche "TROP TARD"
+                    stateExpired.style.display = 'block';
                 }
             }, 1000);
         }
