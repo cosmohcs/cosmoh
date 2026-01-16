@@ -356,7 +356,7 @@
                         <audio id="audio-file" src="images/exclu.wav"></audio> 
                     </div>
 
-                    <a href="images/exclu.wav" download class="bg-red-600 text-black font-bold font-pixel text-2xl px-8 py-4 border-4 border-white hover:bg-white hover:text-red-600 hover:border-red-600 transition-all shadow-[0_0_20px_red] inline-block">
+                    <a href="images/exclu.wav" download="COSMOH - RALLYE (EXCLU).wav" class="bg-red-600 text-black font-bold font-pixel text-2xl px-8 py-4 border-4 border-white hover:bg-white hover:text-red-600 hover:border-red-600 transition-all shadow-[0_0_20px_red] inline-block">
                         <i class="fas fa-save mr-2"></i> TÉLÉCHARGER
                     </a>
                     <p class="mt-4 font-pixel text-gray-500 text-sm">LE LIEN EXPIRE AUTOMATIQUEMENT</p>
@@ -454,8 +454,8 @@
             const stateActive = document.getElementById('state-active');
             const stateExpired = document.getElementById('state-expired');
 
-            // --- DATE TRUQUÉE POUR AFFICHAGE IMMÉDIAT ---
-            // Le drop est considéré comme ayant commencé "hier" et finissant "demain"
+            // --- DATE TRUQUÉE POUR TEST IMMEDIAT ---
+            // Début : Hier // Fin : Demain
             const nowObj = new Date();
             const startDate = new Date(nowObj.getTime() - (24 * 60 * 60 * 1000)); 
             const endDate = new Date(nowObj.getTime() + (24 * 60 * 60 * 1000)); 
