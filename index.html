@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>COSMOH | ILLEGAL_DL</title>
+    <title>COSMOH | HUB</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=VT323&family=Metal+Mania&family=Rubik+Glitch&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
@@ -15,9 +15,6 @@
                     colors: {
                         'void': '#000000',
                         'blood': '#ff0000',
-                        'win-gray': '#c0c0c0',
-                        'win-blue': '#000080',
-                        'hacker-green': '#00ff00',
                     },
                     fontFamily: {
                         'gothic': ['"UnifrakturMaguntia"', 'cursive'],
@@ -29,7 +26,6 @@
                         'glitch': 'glitch 0.2s infinite',
                         'float': 'float 6s ease-in-out infinite',
                         'spin-slow': 'spin 15s linear infinite',
-                        'flash': 'flash 0.5s infinite',
                     },
                     keyframes: {
                         glitch: {
@@ -43,10 +39,6 @@
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-20px)' },
-                        },
-                        flash: {
-                            '0%, 50%, 100%': { opacity: 1 },
-                            '25%, 75%': { opacity: 0 }
                         }
                     }
                 }
@@ -78,50 +70,6 @@
             opacity: 0.4;
         }
 
-        /* Styles Windows 98 / Brutalist */
-        .win98-box {
-            background-color: #c0c0c0;
-            border-top: 2px solid #fff;
-            border-left: 2px solid #fff;
-            border-right: 2px solid #404040;
-            border-bottom: 2px solid #404040;
-            color: black;
-            box-shadow: 4px 4px 0px #000;
-        }
-        
-        .win98-header {
-            background: linear-gradient(90deg, #000080, #1084d0);
-            color: white;
-            padding: 2px 4px;
-            font-family: 'Courier Prime', monospace;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .win98-btn {
-            background: #c0c0c0;
-            border-top: 1px solid #fff;
-            border-left: 1px solid #fff;
-            border-right: 1px solid #000;
-            border-bottom: 1px solid #000;
-            padding: 2px 6px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .win98-btn:active {
-            border-top: 1px solid #000;
-            border-left: 1px solid #000;
-            border-right: 1px solid #fff;
-            border-bottom: 1px solid #fff;
-        }
-
-        .warez-bg {
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0wIDQwTDQwIDBIMjBMMCAyME00MCA0MFYyMEwwIDQwIiBmaWxsPSIjMDAwMDgwIiBmaWxsLW9wYWNpdHk9IjAuMiIvPjwvZz48L3N2Zz4='), linear-gradient(#000, #000033);
-        }
-
-        /* Navigation Styles */
         .nav-item {
             font-family: 'Metal Mania', display;
             font-size: 3.5rem;
@@ -234,10 +182,35 @@
             mix-blend-mode: screen; 
         }
 
-        /* Styling particulier pour la page Exclusive */
-        .hacker-border {
-            border: 2px dashed #00ff00;
-            background: rgba(0, 20, 0, 0.9);
+        /* --- EXCLUSIVE PLAYER STYLES (Clean Dark Webcore) --- */
+        .audio-player-container {
+            border: 1px solid #333;
+            background: #050505;
+            padding: 20px;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            box-shadow: 8px 8px 0px #ff0000; /* Ombre dure rouge */
+        }
+        .audio-progress {
+            width: 100%;
+            height: 4px;
+            background: #333;
+            margin-top: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+        .audio-progress-bar {
+            height: 100%;
+            background: #ff0000;
+            width: 0%;
+            box-shadow: 0 0 10px #ff0000;
+        }
+        .hacker-text {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.7rem;
+            color: #00ff00;
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -320,7 +293,7 @@
             <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-20 mt-20 md:mt-0">
                 <div class="flex flex-col items-center">
                     <div class="relative w-72 h-72 border-4 border-white shadow-[10px_10px_0px_#ff0000] mb-8">
-                        <img src="images/cover sorcellerie.jpeg" alt="Sorcellerie Cover" class="w-full h-full object-cover">
+                        <img src="images/cover sorcellerie.JPEG" alt="Sorcellerie Cover" class="w-full h-full object-cover">
                     </div>
                     <h2 class="text-5xl font-metal text-center">SORCELLERIE</h2>
                     <p class="text-gray-400 font-pixel text-xl tracking-widest">SINGLE • 2026</p>
@@ -351,125 +324,79 @@
         </div>
     </section>
 
-    <section id="exclusive" class="page-section warez-bg">
+    <section id="exclusive" class="page-section bg-black">
         <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
         <div class="section-content-wrapper pt-16">
             
-            <div id="exclusive-container" class="flex flex-col items-center w-full max-w-2xl text-center relative">
+            <div id="exclusive-container" class="flex flex-col items-center w-full max-w-xl text-center mt-10">
                 
-                <div class="absolute top-0 right-0 text-hacker-green font-sys opacity-20 text-xs text-left pointer-events-none hidden md:block">
-                    01010101 LEAK 010101<br>
-                    RALLYE.MP3 DETECTED<br>
-                    IP: 192.168.0.666<br>
-                    CONNECTING...
+                <h2 id="exclusive-title" class="text-4xl font-pixel text-red-600 mb-2">*** EXCLU 24H : RALLYE ***</h2>
+                <div id="countdown" class="text-6xl font-metal text-white mb-8 border-2 border-white px-6 py-2 bg-black">
+                    --:--:--
                 </div>
 
                 <div id="state-upcoming" class="hidden">
-                    <div class="win98-box p-1 w-full max-w-md mx-auto">
-                        <div class="win98-header">
-                            <span>Warning_System.exe</span>
-                            <span class="win98-btn">X</span>
-                        </div>
-                        <div class="p-8 flex flex-col items-center bg-gray-200 text-black">
-                            <i class="fas fa-exclamation-triangle text-yellow-500 text-5xl mb-4"></i>
-                            <p class="font-sys font-bold mb-4">FILE LOCKED.</p>
-                            <p class="font-pixel text-lg mb-4 text-center">THE LEAK IS NOT READY YET.<br>PLEASE WAIT.</p>
-                            <div class="border-2 border-inset border-gray-400 w-full bg-white h-6 relative">
-                                <div class="bg-blue-800 h-full w-[60%] animate-pulse"></div>
-                            </div>
-                        </div>
+                    <p class="font-pixel text-xl text-gray-400 mb-8 max-w-md">L'EXCLU N'EST PAS ENCORE DISPONIBLE.</p>
+                    <div class="border border-white p-4">
+                        <i class="fas fa-hourglass-half text-4xl mb-2 animate-spin-slow"></i>
+                        <p>PREPARE TOI.</p>
                     </div>
                 </div>
 
                 <div id="state-active" class="hidden w-full px-4">
                     
-                    <div class="bg-red-600 text-yellow-300 font-bold font-sys text-center p-1 mb-6 border-2 border-white animate-flash">
-                        !!! WARNING: UNAUTHORIZED MUSIC DETECTED !!!
-                    </div>
+                    <div class="audio-player-container mx-auto mb-8 relative group">
+                        <div class="absolute top-1 right-1 hacker-text">PIRACY_DETECTED</div>
+                        <div class="absolute -left-4 top-10 -rotate-90 hacker-text">UNAUTHORIZED</div>
 
-                    <div class="win98-box w-full max-w-lg mx-auto mb-8 shadow-[10px_10px_0px_rgba(0,0,255,0.5)] transform rotate-1">
-                        <div class="win98-header bg-gradient-to-r from-blue-900 to-blue-600">
-                            <span>WinAmp_Cracked_v2.5.exe</span>
-                            <div class="flex gap-1">
-                                <span class="win98-btn">_</span>
-                                <span class="win98-btn">[]</span>
-                                <span class="win98-btn">X</span>
+                        <div class="flex justify-between items-center mb-6 border-b border-gray-800 pb-2">
+                            <span class="font-pixel text-lg text-white">WINAMP_V1.0.exe</span>
+                            <div class="flex gap-2">
+                                <div class="w-3 h-3 bg-red-600 rounded-full animate-pulse"></div>
+                                <span class="font-pixel text-xs text-red-600">LIVE</span>
                             </div>
                         </div>
-                        <div class="bg-black p-4 text-green-500 font-sys">
-                            <div class="border-2 border-gray-600 p-2 mb-4 bg-[#111]">
-                                <marquee scrollamount="5" class="text-lg">*** NOW PLAYING: COSMOH - RALLYE (UNRELEASED LEAK) *** BITRATE: ??? ***</marquee>
-                                <div class="flex justify-between mt-2 text-xs text-red-500">
-                                    <span>STEREO</span>
-                                    <span id="timer-display">00:00</span>
-                                    <span>44kHz</span>
+
+                        <div class="flex items-center gap-6">
+                            <button id="play-btn" class="w-16 h-16 border-2 border-white flex items-center justify-center hover:bg-white hover:text-black transition-colors" onclick="togglePlay()">
+                                <i class="fas fa-play text-xl" id="play-icon"></i>
+                            </button>
+                            <div class="text-left overflow-hidden w-full">
+                                <div class="font-metal text-2xl truncate text-white">RALLYE (LEAK)</div>
+                                <div class="flex justify-between items-end">
+                                    <div class="font-pixel text-gray-500 text-sm">MP3 /// 40s PREVIEW</div>
+                                    <div id="timer-display" class="font-mono text-red-500 text-xs">00:00</div>
                                 </div>
                             </div>
-                            
-                            <div class="flex justify-center gap-4 mb-4">
-                                <button onclick="togglePlay()" class="bg-gray-300 text-black border-2 border-white border-b-gray-600 border-r-gray-600 px-4 py-1 active:border-gray-600 active:border-b-white active:border-r-white">
-                                    <i class="fas fa-play" id="play-icon"></i> PLAY/PAUSE
-                                </button>
-                            </div>
+                        </div>
 
-                            <div class="flex gap-[2px] h-8 items-end justify-center opacity-70">
-                                <div class="w-1 bg-green-500 h-[40%] animate-pulse"></div>
-                                <div class="w-1 bg-green-500 h-[70%] animate-pulse" style="animation-delay:0.1s"></div>
-                                <div class="w-1 bg-green-500 h-[100%] animate-pulse" style="animation-delay:0.2s"></div>
-                                <div class="w-1 bg-green-500 h-[50%] animate-pulse" style="animation-delay:0.3s"></div>
-                                <div class="w-1 bg-green-500 h-[80%] animate-pulse" style="animation-delay:0.1s"></div>
-                                <div class="w-1 bg-green-500 h-[30%] animate-pulse"></div>
-                            </div>
-                            <div class="text-center text-xs text-gray-500 mt-1">PREVIEW MODE: 40 SEC MAX</div>
+                        <div class="audio-progress" onclick="setProgress(event)">
+                            <div class="audio-progress-bar" id="progress-bar"></div>
                         </div>
                         
                         <audio id="audio-file" src="images/exclu.mp3"></audio> 
                     </div>
 
-                    <div class="hacker-border p-6 text-center max-w-lg mx-auto bg-black relative overflow-hidden group">
-                        <div class="absolute top-0 left-0 w-full text-[10px] text-green-900 leading-none break-all opacity-20 pointer-events-none">
-                            0101010101010101010101010101010101010101010101010101010101010101
-                            1010101010101010101010101010101010101010101010101010101010101010
-                        </div>
-                        
-                        <h3 class="text-3xl font-metal text-white mb-2">DOWNLOAD LINK</h3>
-                        <div id="countdown" class="text-red-600 font-pixel text-2xl mb-4 bg-black inline-block px-2 border border-red-900">
-                            EXPIRATION: --:--:--
-                        </div>
-
-                        <a href="images/exclu.mp3" download="COSMOH - RALLYE (LEAK).mp3" class="relative inline-block group">
-                            <div class="absolute inset-0 bg-blue-600 blur-md opacity-50 group-hover:opacity-100 transition-opacity"></div>
-                            <button class="relative bg-blue-700 text-white font-bold font-sys text-xl px-12 py-6 border-4 border-blue-400 shadow-[0_0_15px_blue] hover:bg-blue-600 hover:scale-105 transition-all">
-                                <i class="fas fa-download mr-2"></i> CLICK TO DOWNLOAD
-                            </button>
-                        </a>
-                        
-                        <div class="mt-4 flex flex-col text-xs font-mono text-gray-500">
-                            <span>FILENAME: COSMOH_RALLYE_LEAK.mp3</span>
-                            <span>SIZE: 4.20 MB</span>
-                            <span class="text-green-500">STATUS: VERIFIED CLEAN</span>
-                        </div>
-                    </div>
-
+                    <a href="images/exclu.mp3" download="COSMOH - RALLYE (LEAK).mp3" class="relative inline-block group">
+                        <div class="absolute inset-0 bg-red-900 blur-md opacity-20 group-hover:opacity-60 transition-opacity"></div>
+                        <button class="relative bg-black text-white font-bold font-pixel text-xl px-10 py-4 border-2 border-red-600 hover:bg-red-600 hover:text-black transition-all">
+                            <i class="fas fa-save mr-2"></i> TÉLÉCHARGER LE LEAK
+                        </button>
+                    </a>
+                    <p class="mt-4 font-sys text-[10px] text-gray-600">HASH: 8a9f... | SERVER: BRUSSELS_01</p>
                 </div>
 
                 <div id="state-expired" class="hidden">
-                    <div class="bg-blue-800 text-white font-sys p-10 max-w-2xl mx-auto border-4 border-white text-center">
-                        <h2 class="text-4xl mb-4 bg-white text-blue-800 inline-block px-2">FATAL ERROR</h2>
-                        <p class="text-xl mb-8">
-                            A fatal exception 0E has occurred at 0028:C0034B23.<br>
-                            The current application will be terminated.<br>
-                            <br>
-                            * THE FILE HAS BEEN DELETED.<br>
-                            * THE 24H WINDOW IS CLOSED.<br>
-                            * PRESS ANY KEY TO CRY.
-                        </p>
-                        <div class="text-center mt-8">
-                            <p class="mb-4">Follow for next leak:</p>
-                            <div class="flex gap-6 justify-center text-3xl">
-                                <a href="#" class="hover:text-black"><i class="fab fa-instagram"></i></a>
-                                <a href="#" class="hover:text-black"><i class="fab fa-twitter"></i></a>
-                            </div>
+                    <i class="fas fa-skull-crossbones text-red-600 text-9xl mb-8 animate-pulse"></i>
+                    <h2 class="text-6xl font-metal text-white mb-4">TROP TARD</h2>
+                    <p class="font-pixel text-xl text-gray-400 mb-8 max-w-md">LE DÉLAI DE 24H EST ÉCOULÉ. FICHIER SUPPRIMÉ DU SERVEUR.</p>
+                    
+                    <div class="border-2 border-dashed border-red-600 p-6">
+                        <p class="font-pixel text-white mb-4">NE RATE PAS LA PROCHAINE EXCLU :</p>
+                        <div class="flex gap-4 justify-center text-3xl">
+                            <a href="#" class="hover:text-red-600"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="hover:text-red-600"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="hover:text-red-600"><i class="fab fa-tiktok"></i></a>
                         </div>
                     </div>
                 </div>
@@ -538,7 +465,6 @@
                 }, 1000);
             }, 3000);
 
-            // Init Timer
             startCountdown();
         });
 
@@ -550,7 +476,7 @@
             const stateActive = document.getElementById('state-active');
             const stateExpired = document.getElementById('state-expired');
 
-            // --- DATE TRUQUÉE POUR TEST IMMEDIAT (POUR TOI) ---
+            // --- DATE TRUQUÉE POUR TEST IMMEDIAT ---
             const nowObj = new Date();
             const startDate = new Date(nowObj.getTime() - (24 * 60 * 60 * 1000)); 
             const endDate = new Date(nowObj.getTime() + (24 * 60 * 60 * 1000)); 
@@ -583,7 +509,6 @@
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             element.innerHTML = 
-                "TIME LEFT: " +
                 (hours < 10 ? "0" + hours : hours) + ":" + 
                 (minutes < 10 ? "0" + minutes : minutes) + ":" + 
                 (seconds < 10 ? "0" + seconds : seconds);
@@ -593,6 +518,7 @@
         const audio = document.getElementById('audio-file');
         const playBtn = document.getElementById('play-btn');
         const playIcon = document.getElementById('play-icon');
+        const progressBar = document.getElementById('progress-bar');
         const timerDisplay = document.getElementById('timer-display');
 
         function togglePlay() {
@@ -608,7 +534,10 @@
         }
 
         audio.addEventListener('timeupdate', () => {
-            // Mise à jour du timer
+            const percentage = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = percentage + '%';
+            
+            // Timer visuel 00:00
             const m = Math.floor(audio.currentTime / 60);
             const s = Math.floor(audio.currentTime % 60);
             timerDisplay.innerText = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
@@ -616,9 +545,11 @@
             // STOPPER APRES 40 SECONDES
             if (audio.currentTime >= 40) {
                 audio.pause();
-                audio.currentTime = 0; // Retour au début
+                audio.currentTime = 0; 
                 playIcon.classList.remove('fa-pause');
                 playIcon.classList.add('fa-play');
+                timerDisplay.innerText = "00:00";
+                progressBar.style.width = '0%';
             }
         });
 
