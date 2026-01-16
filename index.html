@@ -206,12 +206,6 @@
             width: 0%;
             box-shadow: 0 0 10px #ff0000;
         }
-        .hacker-text {
-            font-family: 'Courier Prime', monospace;
-            font-size: 0.7rem;
-            color: #00ff00;
-            opacity: 0.7;
-        }
     </style>
 </head>
 <body class="crt bg-black">
@@ -346,9 +340,6 @@
                 <div id="state-active" class="hidden w-full px-4">
                     
                     <div class="audio-player-container mx-auto mb-8 relative group">
-                        <div class="absolute top-1 right-1 hacker-text">PIRACY_DETECTED</div>
-                        <div class="absolute -left-4 top-10 -rotate-90 hacker-text">UNAUTHORIZED</div>
-
                         <div class="flex justify-between items-center mb-6 border-b border-gray-800 pb-2">
                             <span class="font-pixel text-lg text-white">WINAMP_V1.0.exe</span>
                             <div class="flex gap-2">
@@ -364,7 +355,7 @@
                             <div class="text-left overflow-hidden w-full">
                                 <div class="font-metal text-2xl truncate text-white">RALLYE (LEAK)</div>
                                 <div class="flex justify-between items-end">
-                                    <div class="font-pixel text-gray-500 text-sm">MP3 /// 40s PREVIEW</div>
+                                    <div class="font-pixel text-gray-500 text-sm">MP3 /// 42s PREVIEW</div>
                                     <div id="timer-display" class="font-mono text-red-500 text-xs">00:00</div>
                                 </div>
                             </div>
@@ -380,7 +371,7 @@
                     <a href="images/exclu.mp3" download="COSMOH - RALLYE (LEAK).mp3" class="relative inline-block group">
                         <div class="absolute inset-0 bg-red-900 blur-md opacity-20 group-hover:opacity-60 transition-opacity"></div>
                         <button class="relative bg-black text-white font-bold font-pixel text-xl px-10 py-4 border-2 border-red-600 hover:bg-red-600 hover:text-black transition-all">
-                            <i class="fas fa-save mr-2"></i> TÉLÉCHARGER LE LEAK
+                            <i class="fas fa-save mr-2"></i> TÉLÉCHARGER LE LEAK EN ENTIER
                         </button>
                     </a>
                     <p class="mt-4 font-sys text-[10px] text-gray-600">HASH: 8a9f... | SERVER: BRUSSELS_01</p>
@@ -514,12 +505,13 @@
                 (seconds < 10 ? "0" + seconds : seconds);
         }
 
-        // --- AUDIO PLAYER (40 SECONDES MAX) ---
+        // --- AUDIO PLAYER (42 SECONDES MAX) ---
         const audio = document.getElementById('audio-file');
         const playBtn = document.getElementById('play-btn');
         const playIcon = document.getElementById('play-icon');
         const progressBar = document.getElementById('progress-bar');
         const timerDisplay = document.getElementById('timer-display');
+        const PREVIEW_DURATION = 42; // Durée exacte de l'extrait en secondes
 
         function togglePlay() {
             if (audio.paused) {
@@ -534,16 +526,17 @@
         }
 
         audio.addEventListener('timeupdate', () => {
-            const percentage = (audio.currentTime / audio.duration) * 100;
-            progressBar.style.width = percentage + '%';
+            // CALCUL DE LA BARRE BASÉ SUR 42s ET NON LA DURÉE TOTALE DU FICHIER
+            const percentage = (audio.currentTime / PREVIEW_DURATION) * 100;
+            progressBar.style.width = Math.min(percentage, 100) + '%';
             
             // Timer visuel 00:00
             const m = Math.floor(audio.currentTime / 60);
             const s = Math.floor(audio.currentTime % 60);
             timerDisplay.innerText = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
 
-            // STOPPER APRES 40 SECONDES
-            if (audio.currentTime >= 40) {
+            // STOPPER APRES 42 SECONDES
+            if (audio.currentTime >= PREVIEW_DURATION) {
                 audio.pause();
                 audio.currentTime = 0; 
                 playIcon.classList.remove('fa-pause');
