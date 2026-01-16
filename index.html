@@ -99,7 +99,7 @@
             transform-origin: left;
         }
 
-        /* Sections Logic */
+        /* Sections Logic - MODIFIÉ POUR DOUCEUR */
         .page-section {
             display: none;
             min-height: 100vh;
@@ -109,7 +109,8 @@
             align-items: center;
             justify-content: center;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            /* Transition beaucoup plus lente (1s) pour le smooth */
+            transition: opacity 1.2s ease-in-out; 
         }
         .page-section.active {
             display: flex;
@@ -135,24 +136,33 @@
             background: #ff0000;
         }
 
-        /* --- CALQUE TRANSITION VIDEO --- */
+        /* --- CALQUE TRANSITION VIDEO AMÉLIORÉ --- */
         #transition-layer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 9998; /* Juste en dessous du CRT */
+            z-index: 9998;
             background-color: #000;
-            display: none; /* Caché par défaut */
+            display: none;
             justify-content: center;
             align-items: center;
+            opacity: 1;
+            /* Transition d'opacité ajoutée pour le fondu de sortie */
+            transition: opacity 1.5s ease-out;
         }
+        
+        /* Classe pour déclencher le fondu de disparition */
+        #transition-layer.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
         #transition-layer video {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Transparence des noirs */
             mix-blend-mode: screen; 
         }
 
@@ -288,55 +298,77 @@
     </section>
 
     <script>
-        // Variables pour la transition vidéo
         const transitionLayer = document.getElementById('transition-layer');
         const transitionVideo = document.getElementById('transition-video');
 
-        // Logique de Navigation
         function navigateTo(pageId) {
             
-            // Si on va sur la page STREAM, on lance la vidéo d'abord
             if (pageId === 'stream') {
+                // 1. Reset layer
+                transitionLayer.classList.remove('fade-out');
                 transitionLayer.style.display = 'flex';
+                
+                // 2. Play Video
                 transitionVideo.play();
                 
-                // Quand la vidéo est finie, on change de page
+                // 3. Pendant que la vidéo joue, on prépare la page en dessous
+                // On affiche la section Stream mais elle est cachée par la vidéo (z-index)
+                performNavigation(pageId); 
+
                 transitionVideo.onended = function() {
-                    transitionLayer.style.display = 'none';
-                    performNavigation(pageId);
+                    // 4. La vidéo est finie : on fait le fondu
+                    // On ajoute la classe CSS qui met l'opacité à 0 doucement
+                    transitionLayer.classList.add('fade-out');
+
+                    // 5. On attend la fin du fondu CSS (1.5s) pour cacher le calque
+                    setTimeout(() => {
+                        transitionLayer.style.display = 'none';
+                    }, 1500); 
                 };
             } else {
-                // Navigation normale pour les autres pages
                 performNavigation(pageId);
             }
         }
 
-        // Fonction technique qui change réellement les sections
+        // Fonction de navigation "Smooth" améliorée
         function performNavigation(pageId) {
-            document.querySelectorAll('.page-section').forEach(section => {
-                section.classList.remove('active');
-                setTimeout(() => {
-                    if(section.id !== pageId) section.style.display = 'none';
-                }, 500);
-            });
-
+            // Identifier la section active actuelle pour la faire disparaître proprement
+            const currentActive = document.querySelector('.page-section.active');
+            
+            // Afficher la cible
             const target = document.getElementById(pageId);
-            target.style.display = 'flex';
-            setTimeout(() => {
-                target.classList.add('active');
-            }, 10);
+            
+            if (currentActive) {
+                // Fade out l'actuelle
+                currentActive.classList.remove('active');
+                
+                // Attendre la fin du fade out CSS (1.2s) avant de cacher (display:none) et d'afficher la nouvelle
+                setTimeout(() => {
+                    currentActive.style.display = 'none';
+                    
+                    // Fade in la nouvelle
+                    target.style.display = 'flex';
+                    // Petit délai pour permettre au navigateur de rendre le display:flex avant d'ajouter l'opacité
+                    requestAnimationFrame(() => {
+                        target.classList.add('active');
+                    });
+                }, 1000); // On attend un peu moins que la transition CSS pour un léger chevauchement fluide
+            } else {
+                // Premier chargement (Splash -> Home)
+                target.style.display = 'flex';
+                setTimeout(() => {
+                    target.classList.add('active');
+                }, 50);
+            }
         }
 
-        // --- CORRECTION MAJEURE ICI ---
-        // Utilisation de 'DOMContentLoaded' au lieu de 'load'
-        // Cela lance le script dès que le HTML est lu, sans attendre les images/vidéos lourdes
         document.addEventListener('DOMContentLoaded', () => {
+            // Intro plus longue et plus douce
             setTimeout(() => {
                 navigateTo('home');
-            }, 3000); // 3 secondes d'intro
+            }, 3500);
         });
 
-        // Styles dynamiques pour animations
         document.head.insertAdjacentHTML("beforeend", `<style>
             @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
             .blink { animation: blink 1s infinite; }
