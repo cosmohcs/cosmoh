@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>COSMOH | HUB</title>
+    <title>COSMOH | ILLEGAL_DL</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=VT323&family=Metal+Mania&family=Rubik+Glitch&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=VT323&family=Metal+Mania&family=Rubik+Glitch&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
     <script>
@@ -15,16 +15,21 @@
                     colors: {
                         'void': '#000000',
                         'blood': '#ff0000',
+                        'win-gray': '#c0c0c0',
+                        'win-blue': '#000080',
+                        'hacker-green': '#00ff00',
                     },
                     fontFamily: {
                         'gothic': ['"UnifrakturMaguntia"', 'cursive'],
                         'pixel': ['"VT323"', 'monospace'],
                         'metal': ['"Metal Mania"', 'display'],
+                        'sys': ['"Courier Prime"', 'monospace'],
                     },
                     animation: {
                         'glitch': 'glitch 0.2s infinite',
                         'float': 'float 6s ease-in-out infinite',
                         'spin-slow': 'spin 15s linear infinite',
+                        'flash': 'flash 0.5s infinite',
                     },
                     keyframes: {
                         glitch: {
@@ -38,6 +43,10 @@
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-20px)' },
+                        },
+                        flash: {
+                            '0%, 50%, 100%': { opacity: 1 },
+                            '25%, 75%': { opacity: 0 }
                         }
                     }
                 }
@@ -69,6 +78,50 @@
             opacity: 0.4;
         }
 
+        /* Styles Windows 98 / Brutalist */
+        .win98-box {
+            background-color: #c0c0c0;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            border-right: 2px solid #404040;
+            border-bottom: 2px solid #404040;
+            color: black;
+            box-shadow: 4px 4px 0px #000;
+        }
+        
+        .win98-header {
+            background: linear-gradient(90deg, #000080, #1084d0);
+            color: white;
+            padding: 2px 4px;
+            font-family: 'Courier Prime', monospace;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .win98-btn {
+            background: #c0c0c0;
+            border-top: 1px solid #fff;
+            border-left: 1px solid #fff;
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+            padding: 2px 6px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .win98-btn:active {
+            border-top: 1px solid #000;
+            border-left: 1px solid #000;
+            border-right: 1px solid #fff;
+            border-bottom: 1px solid #fff;
+        }
+
+        .warez-bg {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0wIDQwTDQwIDBIMjBMMCAyME00MCA0MFYyMEwwIDQwIiBmaWxsPSIjMDAwMDgwIiBmaWxsLW9wYWNpdHk9IjAuMiIvPjwvZz48L3N2Zz4='), linear-gradient(#000, #000033);
+        }
+
+        /* Navigation Styles */
         .nav-item {
             font-family: 'Metal Mania', display;
             font-size: 3.5rem;
@@ -181,27 +234,10 @@
             mix-blend-mode: screen; 
         }
 
-        /* --- EXCLUSIVE PLAYER STYLES --- */
-        .audio-player-container {
-            border: 2px solid #333;
-            background: #000;
-            padding: 20px;
-            width: 100%;
-            max-width: 400px;
-            position: relative;
-        }
-        .audio-progress {
-            width: 100%;
-            height: 10px;
-            background: #333;
-            margin-top: 15px;
-            position: relative;
-            cursor: pointer;
-        }
-        .audio-progress-bar {
-            height: 100%;
-            background: #ff0000;
-            width: 0%;
+        /* Styling particulier pour la page Exclusive */
+        .hacker-border {
+            border: 2px dashed #00ff00;
+            background: rgba(0, 20, 0, 0.9);
         }
     </style>
 </head>
@@ -315,64 +351,125 @@
         </div>
     </section>
 
-    <section id="exclusive" class="page-section bg-black">
+    <section id="exclusive" class="page-section warez-bg">
         <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
-        <div class="section-content-wrapper">
+        <div class="section-content-wrapper pt-16">
             
-            <div id="exclusive-container" class="flex flex-col items-center w-full max-w-lg text-center mt-20">
+            <div id="exclusive-container" class="flex flex-col items-center w-full max-w-2xl text-center relative">
                 
-                <h2 id="exclusive-title" class="text-4xl font-pixel text-red-600 mb-2 blink">*** EXCLU 24H : RALLYE ***</h2>
-                
-                <div id="countdown" class="text-6xl font-metal text-white mb-8 border-2 border-white px-6 py-2">
-                    --:--:--
+                <div class="absolute top-0 right-0 text-hacker-green font-sys opacity-20 text-xs text-left pointer-events-none hidden md:block">
+                    01010101 LEAK 010101<br>
+                    RALLYE.MP3 DETECTED<br>
+                    IP: 192.168.0.666<br>
+                    CONNECTING...
                 </div>
 
                 <div id="state-upcoming" class="hidden">
-                    <p class="font-pixel text-xl text-gray-400 mb-8 max-w-md">L'EXCLU N'EST PAS ENCORE DISPONIBLE.</p>
-                    <div class="border border-white p-4">
-                        <i class="fas fa-hourglass-half text-4xl mb-2 animate-spin-slow"></i>
-                        <p>PREPARE TOI.</p>
+                    <div class="win98-box p-1 w-full max-w-md mx-auto">
+                        <div class="win98-header">
+                            <span>Warning_System.exe</span>
+                            <span class="win98-btn">X</span>
+                        </div>
+                        <div class="p-8 flex flex-col items-center bg-gray-200 text-black">
+                            <i class="fas fa-exclamation-triangle text-yellow-500 text-5xl mb-4"></i>
+                            <p class="font-sys font-bold mb-4">FILE LOCKED.</p>
+                            <p class="font-pixel text-lg mb-4 text-center">THE LEAK IS NOT READY YET.<br>PLEASE WAIT.</p>
+                            <div class="border-2 border-inset border-gray-400 w-full bg-white h-6 relative">
+                                <div class="bg-blue-800 h-full w-[60%] animate-pulse"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div id="state-active" class="hidden w-full">
-                    <div class="audio-player-container mb-8 shadow-[8px_8px_0px_#ff0000] mx-auto">
-                        <div class="flex justify-between items-center mb-4 border-b border-gray-800 pb-2">
-                            <span class="font-pixel text-xs text-green-500">WINAMP_V1.0.exe</span>
-                            <span class="font-pixel text-xs text-red-600 animate-pulse">LIVE</span>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <button id="play-btn" class="w-12 h-12 border border-white flex items-center justify-center hover:bg-white hover:text-black transition-colors" onclick="togglePlay()">
-                                <i class="fas fa-play" id="play-icon"></i>
-                            </button>
-                            <div class="text-left overflow-hidden">
-                                <div class="font-metal text-xl truncate w-48">RALLYE.wav</div>
-                                <div class="font-pixel text-gray-500 text-sm">WAV /// LOSSLESS</div>
-                            </div>
-                        </div>
-                        <div class="audio-progress" onclick="setProgress(event)">
-                            <div class="audio-progress-bar" id="progress-bar"></div>
-                        </div>
-                        <audio id="audio-file" src="images/exclu.wav"></audio> 
+                <div id="state-active" class="hidden w-full px-4">
+                    
+                    <div class="bg-red-600 text-yellow-300 font-bold font-sys text-center p-1 mb-6 border-2 border-white animate-flash">
+                        !!! WARNING: UNAUTHORIZED MUSIC DETECTED !!!
                     </div>
 
-                    <a href="images/exclu.wav" download="COSMOH - RALLYE (EXCLU).wav" class="bg-red-600 text-black font-bold font-pixel text-2xl px-8 py-4 border-4 border-white hover:bg-white hover:text-red-600 hover:border-red-600 transition-all shadow-[0_0_20px_red] inline-block">
-                        <i class="fas fa-save mr-2"></i> TÉLÉCHARGER
-                    </a>
-                    <p class="mt-4 font-pixel text-gray-500 text-sm">LE LIEN EXPIRE AUTOMATIQUEMENT</p>
+                    <div class="win98-box w-full max-w-lg mx-auto mb-8 shadow-[10px_10px_0px_rgba(0,0,255,0.5)] transform rotate-1">
+                        <div class="win98-header bg-gradient-to-r from-blue-900 to-blue-600">
+                            <span>WinAmp_Cracked_v2.5.exe</span>
+                            <div class="flex gap-1">
+                                <span class="win98-btn">_</span>
+                                <span class="win98-btn">[]</span>
+                                <span class="win98-btn">X</span>
+                            </div>
+                        </div>
+                        <div class="bg-black p-4 text-green-500 font-sys">
+                            <div class="border-2 border-gray-600 p-2 mb-4 bg-[#111]">
+                                <marquee scrollamount="5" class="text-lg">*** NOW PLAYING: COSMOH - RALLYE (UNRELEASED LEAK) *** BITRATE: ??? ***</marquee>
+                                <div class="flex justify-between mt-2 text-xs text-red-500">
+                                    <span>STEREO</span>
+                                    <span id="timer-display">00:00</span>
+                                    <span>44kHz</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-center gap-4 mb-4">
+                                <button onclick="togglePlay()" class="bg-gray-300 text-black border-2 border-white border-b-gray-600 border-r-gray-600 px-4 py-1 active:border-gray-600 active:border-b-white active:border-r-white">
+                                    <i class="fas fa-play" id="play-icon"></i> PLAY/PAUSE
+                                </button>
+                            </div>
+
+                            <div class="flex gap-[2px] h-8 items-end justify-center opacity-70">
+                                <div class="w-1 bg-green-500 h-[40%] animate-pulse"></div>
+                                <div class="w-1 bg-green-500 h-[70%] animate-pulse" style="animation-delay:0.1s"></div>
+                                <div class="w-1 bg-green-500 h-[100%] animate-pulse" style="animation-delay:0.2s"></div>
+                                <div class="w-1 bg-green-500 h-[50%] animate-pulse" style="animation-delay:0.3s"></div>
+                                <div class="w-1 bg-green-500 h-[80%] animate-pulse" style="animation-delay:0.1s"></div>
+                                <div class="w-1 bg-green-500 h-[30%] animate-pulse"></div>
+                            </div>
+                            <div class="text-center text-xs text-gray-500 mt-1">PREVIEW MODE: 40 SEC MAX</div>
+                        </div>
+                        
+                        <audio id="audio-file" src="images/exclu.mp3"></audio> 
+                    </div>
+
+                    <div class="hacker-border p-6 text-center max-w-lg mx-auto bg-black relative overflow-hidden group">
+                        <div class="absolute top-0 left-0 w-full text-[10px] text-green-900 leading-none break-all opacity-20 pointer-events-none">
+                            0101010101010101010101010101010101010101010101010101010101010101
+                            1010101010101010101010101010101010101010101010101010101010101010
+                        </div>
+                        
+                        <h3 class="text-3xl font-metal text-white mb-2">DOWNLOAD LINK</h3>
+                        <div id="countdown" class="text-red-600 font-pixel text-2xl mb-4 bg-black inline-block px-2 border border-red-900">
+                            EXPIRATION: --:--:--
+                        </div>
+
+                        <a href="images/exclu.mp3" download="COSMOH - RALLYE (LEAK).mp3" class="relative inline-block group">
+                            <div class="absolute inset-0 bg-blue-600 blur-md opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                            <button class="relative bg-blue-700 text-white font-bold font-sys text-xl px-12 py-6 border-4 border-blue-400 shadow-[0_0_15px_blue] hover:bg-blue-600 hover:scale-105 transition-all">
+                                <i class="fas fa-download mr-2"></i> CLICK TO DOWNLOAD
+                            </button>
+                        </a>
+                        
+                        <div class="mt-4 flex flex-col text-xs font-mono text-gray-500">
+                            <span>FILENAME: COSMOH_RALLYE_LEAK.mp3</span>
+                            <span>SIZE: 4.20 MB</span>
+                            <span class="text-green-500">STATUS: VERIFIED CLEAN</span>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div id="state-expired" class="hidden">
-                    <i class="fas fa-skull-crossbones text-red-600 text-9xl mb-8 animate-pulse"></i>
-                    <h2 class="text-6xl font-metal text-white mb-4">TROP TARD</h2>
-                    <p class="font-pixel text-xl text-gray-400 mb-8 max-w-md">LE DÉLAI DE 24H EST ÉCOULÉ. FICHIER SUPPRIMÉ DU SERVEUR.</p>
-                    
-                    <div class="border-2 border-dashed border-red-600 p-6">
-                        <p class="font-pixel text-white mb-4">NE RATE PAS LA PROCHAINE EXCLU :</p>
-                        <div class="flex gap-4 justify-center text-3xl">
-                            <a href="#" class="hover:text-red-600"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="hover:text-red-600"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="hover:text-red-600"><i class="fab fa-tiktok"></i></a>
+                    <div class="bg-blue-800 text-white font-sys p-10 max-w-2xl mx-auto border-4 border-white text-center">
+                        <h2 class="text-4xl mb-4 bg-white text-blue-800 inline-block px-2">FATAL ERROR</h2>
+                        <p class="text-xl mb-8">
+                            A fatal exception 0E has occurred at 0028:C0034B23.<br>
+                            The current application will be terminated.<br>
+                            <br>
+                            * THE FILE HAS BEEN DELETED.<br>
+                            * THE 24H WINDOW IS CLOSED.<br>
+                            * PRESS ANY KEY TO CRY.
+                        </p>
+                        <div class="text-center mt-8">
+                            <p class="mb-4">Follow for next leak:</p>
+                            <div class="flex gap-6 justify-center text-3xl">
+                                <a href="#" class="hover:text-black"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="hover:text-black"><i class="fab fa-twitter"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -449,13 +546,11 @@
         
         function startCountdown() {
             const timerElement = document.getElementById('countdown');
-            const titleElement = document.getElementById('exclusive-title');
             const stateUpcoming = document.getElementById('state-upcoming');
             const stateActive = document.getElementById('state-active');
             const stateExpired = document.getElementById('state-expired');
 
-            // --- DATE TRUQUÉE POUR TEST IMMEDIAT ---
-            // Début : Hier // Fin : Demain
+            // --- DATE TRUQUÉE POUR TEST IMMEDIAT (POUR TOI) ---
             const nowObj = new Date();
             const startDate = new Date(nowObj.getTime() - (24 * 60 * 60 * 1000)); 
             const endDate = new Date(nowObj.getTime() + (24 * 60 * 60 * 1000)); 
@@ -463,25 +558,19 @@
             const interval = setInterval(() => {
                 const now = new Date().getTime();
                 
-                // 1. AVANT
                 if (now < startDate.getTime()) {
                     stateUpcoming.style.display = 'block';
                     stateActive.style.display = 'none';
                 } 
-                // 2. PENDANT
                 else if (now >= startDate.getTime() && now < endDate.getTime()) {
                     const distance = endDate.getTime() - now;
-                    
                     stateUpcoming.style.display = 'none';
                     stateActive.style.display = 'block';
                     stateExpired.style.display = 'none';
-
                     updateTimerDisplay(distance, timerElement);
                 } 
-                // 3. APRES
                 else {
                     clearInterval(interval);
-                    timerElement.innerText = "00:00:00";
                     stateActive.style.display = 'none';
                     stateExpired.style.display = 'block';
                 }
@@ -494,16 +583,17 @@
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             element.innerHTML = 
+                "TIME LEFT: " +
                 (hours < 10 ? "0" + hours : hours) + ":" + 
                 (minutes < 10 ? "0" + minutes : minutes) + ":" + 
                 (seconds < 10 ? "0" + seconds : seconds);
         }
 
-        // --- AUDIO PLAYER SIMPLE ---
+        // --- AUDIO PLAYER (40 SECONDES MAX) ---
         const audio = document.getElementById('audio-file');
         const playBtn = document.getElementById('play-btn');
         const playIcon = document.getElementById('play-icon');
-        const progressBar = document.getElementById('progress-bar');
+        const timerDisplay = document.getElementById('timer-display');
 
         function togglePlay() {
             if (audio.paused) {
@@ -518,8 +608,18 @@
         }
 
         audio.addEventListener('timeupdate', () => {
-            const percentage = (audio.currentTime / audio.duration) * 100;
-            progressBar.style.width = percentage + '%';
+            // Mise à jour du timer
+            const m = Math.floor(audio.currentTime / 60);
+            const s = Math.floor(audio.currentTime % 60);
+            timerDisplay.innerText = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
+
+            // STOPPER APRES 40 SECONDES
+            if (audio.currentTime >= 40) {
+                audio.pause();
+                audio.currentTime = 0; // Retour au début
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
+            }
         });
 
         document.head.insertAdjacentHTML("beforeend", `<style>
