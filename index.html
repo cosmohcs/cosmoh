@@ -46,16 +46,15 @@
     </script>
 
     <style>
-        /* Bloquer le scroll du BODY pour gérer le scroll dans les sections */
         body {
             background-color: #000;
             color: #fff;
-            overflow: hidden; /* Important : on bloque le scroll global */
-            height: 100vh;    /* Force la hauteur écran */
+            overflow: hidden;
+            height: 100vh;
             width: 100vw;
             font-family: 'VT323', monospace;
             cursor: crosshair;
-            position: fixed; /* Stabilise l'affichage mobile */
+            position: fixed;
         }
 
         .crt::before {
@@ -101,30 +100,23 @@
             transform-origin: left;
         }
 
-        /* --- CORRECTION SCROLL MOBILE --- */
+        /* --- SCROLL MOBILE --- */
         .page-section {
             display: none;
             position: absolute;
             top: 0; left: 0;
             width: 100%;
-            height: 100%; /* Prend toute la hauteur */
-            
-            /* Permet le scroll à l'intérieur de la section si le contenu dépasse */
+            height: 100%;
             overflow-y: auto; 
-            -webkit-overflow-scrolling: touch; /* Scroll fluide sur iPhone */
-            
+            -webkit-overflow-scrolling: touch;
             flex-direction: column;
             align-items: center;
-            /* On utilise min-height sur le contenu interne via flex, pas ici */
             padding: 20px;
-            padding-bottom: 100px; /* Espace pour scroller jusqu'en bas */
-            
+            padding-bottom: 100px;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
         }
         
-        /* Conteneur interne pour centrer le contenu quand il est petit, 
-           mais laisser scroller quand il est grand */
         .section-content-wrapper {
             min-height: 100%;
             display: flex;
@@ -135,19 +127,18 @@
         }
         
         .page-section.active {
-            display: block; /* On utilise block pour que le scroll fonctionne bien */
+            display: block;
             opacity: 1;
         }
 
-        /* Splash Screen (Z-index très haut) */
         #splash {
             z-index: 9000;
-            display: flex; /* Toujours flex pour centrer */
+            display: flex;
             justify-content: center;
         }
 
         .back-btn {
-            position: fixed; /* Fixe pour rester visible au scroll */
+            position: fixed;
             top: 20px;
             left: 20px;
             font-family: 'VT323', monospace;
@@ -157,7 +148,7 @@
             z-index: 50;
             border: 1px solid #333;
             padding: 5px 15px;
-            background: rgba(0,0,0,0.8); /* Fond pour lisibilité sur contenu scrollé */
+            background: rgba(0,0,0,0.8);
         }
         .back-btn:hover {
             color: #fff;
@@ -190,6 +181,28 @@
             mix-blend-mode: screen; 
         }
 
+        /* --- EXCLUSIVE PLAYER STYLES --- */
+        .audio-player-container {
+            border: 2px solid #333;
+            background: #000;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+        }
+        .audio-progress {
+            width: 100%;
+            height: 10px;
+            background: #333;
+            margin-top: 15px;
+            position: relative;
+            cursor: pointer;
+        }
+        .audio-progress-bar {
+            height: 100%;
+            background: #ff0000;
+            width: 0%;
+        }
     </style>
 </head>
 <body class="crt bg-black">
@@ -209,17 +222,19 @@
 
     <section id="home" class="page-section bg-black">
         <div class="section-content-wrapper">
-            <div class="absolute inset-0 z-0 opacity-20 pointer-events-none fixed"> <img src="images/image_19.png" class="absolute top-10 right-10 w-40 animate-spin-slow opacity-50 mix-blend-difference">
+            <div class="absolute inset-0 z-0 opacity-20 pointer-events-none fixed">
+                <img src="images/image_19.png" class="absolute top-10 right-10 w-40 animate-spin-slow opacity-50 mix-blend-difference">
                 <img src="images/image_19.png" class="absolute bottom-10 left-10 w-60 animate-float opacity-30 invert">
             </div>
 
-            <h1 class="text-[5rem] md:text-[8rem] font-metal text-white mb-12 z-10 animate-float text-center leading-none select-none">
+            <h1 class="text-[5rem] md:text-[8rem] font-metal text-white mb-8 z-10 animate-float text-center leading-none select-none">
                 COSMOH
             </h1>
 
-            <nav class="flex flex-col gap-8 z-10 text-center">
+            <nav class="flex flex-col gap-6 z-10 text-center">
                 <div class="nav-item" onclick="navigateTo('shows')">SHOWS</div>
                 <div class="nav-item text-red-600" onclick="navigateTo('stream')">STREAM</div>
+                <div class="nav-item animate-pulse" onclick="navigateTo('exclusive')">EXCLUSIVE</div>
                 <div class="nav-item" onclick="navigateTo('shop')">SHOP</div>
             </nav>
 
@@ -233,10 +248,8 @@
 
     <section id="shows" class="page-section bg-neutral-900">
         <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
-        
         <div class="section-content-wrapper">
             <h2 class="text-6xl font-metal text-red-600 mb-12 border-b-2 border-white pb-2 mt-20">ARCHIVES</h2>
-
             <div class="w-full max-w-2xl space-y-6">
                 <div class="border border-gray-700 p-6 hover:bg-white hover:text-black transition-colors group relative overflow-hidden">
                     <div class="absolute top-0 right-0 bg-red-600 text-white text-xs px-2 py-1 font-bold">COMPLET</div>
@@ -248,7 +261,6 @@
                         <div class="text-2xl font-bold">FEV 2025</div>
                     </div>
                 </div>
-
                 <div class="border border-gray-700 p-6 hover:bg-white hover:text-black transition-colors group relative overflow-hidden">
                      <div class="absolute top-0 right-0 bg-red-600 text-white text-xs px-2 py-1 font-bold">COMPLET</div>
                     <div class="flex justify-between items-end">
@@ -260,7 +272,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="mt-16 border-2 border-dashed border-red-600 p-4 animate-pulse mb-10">
                 <p class="text-2xl font-pixel text-red-600">>>> DATES DISPONIBLES PROCHAINEMENT <<<</p>
             </div>
@@ -269,10 +280,8 @@
 
     <section id="stream" class="page-section bg-black">
         <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
-
         <div class="section-content-wrapper">
             <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-20 mt-20 md:mt-0">
-                
                 <div class="flex flex-col items-center">
                     <div class="relative w-72 h-72 border-4 border-white shadow-[10px_10px_0px_#ff0000] mb-8">
                         <img src="images/cover sorcellerie.jpeg" alt="Sorcellerie Cover" class="w-full h-full object-cover">
@@ -280,52 +289,108 @@
                     <h2 class="text-5xl font-metal text-center">SORCELLERIE</h2>
                     <p class="text-gray-400 font-pixel text-xl tracking-widest">SINGLE • 2026</p>
                 </div>
-
-                <div class="flex flex-col gap-4 w-full pb-10"> <a href="TON_LIEN_SPOTIFY" target="_blank" class="bg-black border border-white p-4 flex justify-between items-center hover:bg-green-600 hover:text-black hover:border-black transition-all">
+                <div class="flex flex-col gap-4 w-full pb-10">
+                    <a href="TON_LIEN_SPOTIFY" target="_blank" class="bg-black border border-white p-4 flex justify-between items-center hover:bg-green-600 hover:text-black hover:border-black transition-all">
                         <span class="font-pixel text-2xl">SPOTIFY</span>
                         <i class="fab fa-spotify text-2xl"></i>
                     </a>
-                    
                     <a href="TON_LIEN_APPLE" target="_blank" class="bg-black border border-white p-4 flex justify-between items-center hover:bg-gray-200 hover:text-black hover:border-black transition-all">
                         <span class="font-pixel text-2xl">APPLE MUSIC</span>
                         <i class="fab fa-apple text-2xl"></i>
                     </a>
-
                     <a href="TON_LIEN_DEEZER" target="_blank" class="bg-black border border-white p-4 flex justify-between items-center hover:bg-purple-600 hover:text-black hover:border-black transition-all">
                         <span class="font-pixel text-2xl">DEEZER</span>
                         <i class="fab fa-deezer text-2xl"></i>
                     </a>
-
                     <div class="mt-6 w-full aspect-video border-2 border-red-600 bg-black relative group cursor-pointer" 
                          onclick="this.innerHTML='<iframe class=\'w-full h-full\' src=\'https://www.youtube.com/embed/ECHCOakj5Xs?autoplay=1\' frameborder=\'0\' allow=\'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen></iframe>'">
-                        
                         <div class="absolute -top-6 left-0 text-red-600 font-pixel z-20 bg-black px-1">WATCH VIDEO_CLIP.mp4</div>
-                        
                         <img src="https://img.youtube.com/vi/ECHCOakj5Xs/maxresdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
-                        
                         <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
                             <i class="fas fa-play text-4xl text-white opacity-70 group-hover:text-red-600 group-hover:scale-125 transition-all"></i>
                         </div>
                     </div>
-
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="exclusive" class="page-section bg-black">
+        <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
+        <div class="section-content-wrapper">
+            
+            <div id="exclusive-container" class="flex flex-col items-center w-full max-w-lg text-center mt-20">
+                
+                <h2 id="exclusive-title" class="text-4xl font-pixel text-red-600 mb-2 blink">*** EXCLU 24H : RALLYE ***</h2>
+                
+                <div id="countdown" class="text-6xl font-metal text-white mb-8 border-2 border-white px-6 py-2">
+                    --:--:--
+                </div>
+
+                <div id="state-upcoming" class="hidden">
+                    <p class="font-pixel text-xl text-gray-400 mb-8 max-w-md">L'EXCLU N'EST PAS ENCORE DISPONIBLE.</p>
+                    <div class="border border-white p-4">
+                        <i class="fas fa-hourglass-half text-4xl mb-2 animate-spin-slow"></i>
+                        <p>PREPARE TOI.</p>
+                    </div>
+                </div>
+
+                <div id="state-active" class="hidden w-full">
+                    <div class="audio-player-container mb-8 shadow-[8px_8px_0px_#ff0000] mx-auto">
+                        <div class="flex justify-between items-center mb-4 border-b border-gray-800 pb-2">
+                            <span class="font-pixel text-xs text-green-500">WINAMP_V1.0.exe</span>
+                            <span class="font-pixel text-xs text-red-600 animate-pulse">LIVE</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <button id="play-btn" class="w-12 h-12 border border-white flex items-center justify-center hover:bg-white hover:text-black transition-colors" onclick="togglePlay()">
+                                <i class="fas fa-play" id="play-icon"></i>
+                            </button>
+                            <div class="text-left overflow-hidden">
+                                <div class="font-metal text-xl truncate w-48">RALLYE.mp3</div>
+                                <div class="font-pixel text-gray-500 text-sm">320kbps /// STEREO</div>
+                            </div>
+                        </div>
+                        <div class="audio-progress" onclick="setProgress(event)">
+                            <div class="audio-progress-bar" id="progress-bar"></div>
+                        </div>
+                        <audio id="audio-file" src="images/exclu.mp3"></audio> 
+                    </div>
+
+                    <a href="images/exclu.mp3" download class="bg-red-600 text-black font-bold font-pixel text-2xl px-8 py-4 border-4 border-white hover:bg-white hover:text-red-600 hover:border-red-600 transition-all shadow-[0_0_20px_red] inline-block">
+                        <i class="fas fa-save mr-2"></i> TÉLÉCHARGER
+                    </a>
+                    <p class="mt-4 font-pixel text-gray-500 text-sm">LE LIEN EXPIRE AUTOMATIQUEMENT</p>
+                </div>
+
+                <div id="state-expired" class="hidden">
+                    <i class="fas fa-skull-crossbones text-red-600 text-9xl mb-8 animate-pulse"></i>
+                    <h2 class="text-6xl font-metal text-white mb-4">TROP TARD</h2>
+                    <p class="font-pixel text-xl text-gray-400 mb-8 max-w-md">LE DÉLAI DE 24H EST ÉCOULÉ. FICHIER SUPPRIMÉ DU SERVEUR.</p>
+                    
+                    <div class="border-2 border-dashed border-red-600 p-6">
+                        <p class="font-pixel text-white mb-4">NE RATE PAS LA PROCHAINE EXCLU :</p>
+                        <div class="flex gap-4 justify-center text-3xl">
+                            <a href="#" class="hover:text-red-600"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="hover:text-red-600"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="hover:text-red-600"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
     <section id="shop" class="page-section bg-black">
         <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
-        
         <div class="section-content-wrapper">
             <div class="absolute inset-0 flex justify-center items-center opacity-10 pointer-events-none">
                 <i class="fas fa-lock text-[20rem]"></i>
             </div>
-
             <div class="z-10 text-center border-4 border-white p-10 bg-black max-w-lg shadow-[15px_15px_0px_#333]">
                 <h2 class="text-6xl font-metal text-white mb-4">SHOP CLOSED</h2>
                 <div class="w-full h-1 bg-red-600 mb-6"></div>
                 <p class="text-2xl font-pixel text-gray-300 mb-8 blink">ACCESS DENIED</p>
-                
                 <div class="bg-red-600 text-black font-bold p-2 text-xl inline-block rotate-2">
                     DISPONIBLE PROCHAINEMENT
                 </div>
@@ -337,16 +402,13 @@
         const transitionLayer = document.getElementById('transition-layer');
         const transitionVideo = document.getElementById('transition-video');
 
+        // --- NAVIGATION ---
         function navigateTo(pageId) {
             if (pageId === 'stream') {
-                // Transition VIDEO
                 transitionLayer.classList.remove('fade-out');
                 transitionLayer.style.display = 'flex';
                 transitionVideo.play();
-                
-                // On met à jour l'arrière plan pour qu'il soit prêt quand la vidéo finira
                 performNavigation(pageId); 
-
                 transitionVideo.onended = function() {
                     transitionLayer.classList.add('fade-out');
                     setTimeout(() => {
@@ -360,15 +422,11 @@
 
         function performNavigation(pageId) {
             document.querySelectorAll('.page-section').forEach(section => {
-                // Si ce n'est pas le splash screen (qu'on gère à part au début)
                 if(section.id !== 'splash') {
                     if (section.id === pageId) {
-                        // On active la section
                         section.classList.add('active');
-                        // IMPORTANT : On remonte le scroll en haut à chaque changement de page
                         section.scrollTop = 0;
                     } else {
-                        // On désactive
                         section.classList.remove('active');
                     }
                 }
@@ -378,11 +436,102 @@
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 navigateTo('home');
-                // On cache le splash après la transition
                 setTimeout(() => {
                     document.getElementById('splash').style.display = 'none';
                 }, 1000);
             }, 3000);
+
+            // Init Timer
+            startCountdown();
+        });
+
+        // --- LOGIQUE EXCLUSIVE / TIMER (3 ETATS) ---
+        
+        // CONFIGURATION DES DATES :
+        // DEBUT : 18 Janvier 2026 à 18h00
+        const startDate = new Date('2026-01-18T18:00:00');
+        // FIN : 19 Janvier 2026 à 18h00 (24h plus tard)
+        const endDate = new Date(startDate.getTime() + (24 * 60 * 60 * 1000)); 
+
+        function startCountdown() {
+            const timerElement = document.getElementById('countdown');
+            const titleElement = document.getElementById('exclusive-title');
+            
+            const stateUpcoming = document.getElementById('state-upcoming');
+            const stateActive = document.getElementById('state-active');
+            const stateExpired = document.getElementById('state-expired');
+
+            const interval = setInterval(() => {
+                const now = new Date().getTime();
+                
+                // 1. SI ON EST AVANT LE DEBUT
+                if (now < startDate.getTime()) {
+                    const distance = startDate.getTime() - now;
+                    
+                    titleElement.innerText = "*** DROP EN APPROCHE ***";
+                    stateUpcoming.style.display = 'block';
+                    stateActive.style.display = 'none';
+                    stateExpired.style.display = 'none';
+
+                    updateTimerDisplay(distance, timerElement);
+                } 
+                // 2. SI ON EST PENDANT LE DROP (ENTRE DEBUT ET FIN)
+                else if (now >= startDate.getTime() && now < endDate.getTime()) {
+                    const distance = endDate.getTime() - now;
+                    
+                    titleElement.innerText = "*** EXCLU 24H : RALLYE ***";
+                    stateUpcoming.style.display = 'none';
+                    stateActive.style.display = 'block';
+                    stateExpired.style.display = 'none';
+
+                    updateTimerDisplay(distance, timerElement);
+                } 
+                // 3. SI C'EST FINI
+                else {
+                    clearInterval(interval);
+                    titleElement.innerText = "*** DROP TERMINÉ ***";
+                    timerElement.innerText = "00:00:00";
+                    timerElement.classList.add('text-red-600'); // Rouge pour signaler la fin
+                    
+                    stateUpcoming.style.display = 'none';
+                    stateActive.style.display = 'none';
+                    stateExpired.style.display = 'block'; // Affiche "TROP TARD"
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay(distance, element) {
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            element.innerHTML = 
+                (hours < 10 ? "0" + hours : hours) + ":" + 
+                (minutes < 10 ? "0" + minutes : minutes) + ":" + 
+                (seconds < 10 ? "0" + seconds : seconds);
+        }
+
+        // --- AUDIO PLAYER SIMPLE ---
+        const audio = document.getElementById('audio-file');
+        const playBtn = document.getElementById('play-btn');
+        const playIcon = document.getElementById('play-icon');
+        const progressBar = document.getElementById('progress-bar');
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playIcon.classList.remove('fa-play');
+                playIcon.classList.add('fa-pause');
+            } else {
+                audio.pause();
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
+            }
+        }
+
+        audio.addEventListener('timeupdate', () => {
+            const percentage = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = percentage + '%';
         });
 
         document.head.insertAdjacentHTML("beforeend", `<style>
