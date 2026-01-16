@@ -340,6 +340,7 @@
                 <div id="state-active" class="hidden w-full px-4">
                     
                     <div class="audio-player-container mx-auto mb-8 relative group">
+
                         <div class="flex justify-between items-center mb-6 border-b border-gray-800 pb-2">
                             <span class="font-pixel text-lg text-white">WINAMP_V1.0.exe</span>
                             <div class="flex gap-2">
@@ -505,32 +506,30 @@
                 (seconds < 10 ? "0" + seconds : seconds);
         }
 
-        // --- AUDIO PLAYER (42 SECONDES MAX) ---
+        // --- AUDIO PLAYER (42 SECONDES MAX) & FIX ICONE ---
         const audio = document.getElementById('audio-file');
-        const playBtn = document.getElementById('play-btn');
-        const playIcon = document.getElementById('play-icon');
         const progressBar = document.getElementById('progress-bar');
         const timerDisplay = document.getElementById('timer-display');
-        const PREVIEW_DURATION = 42; // Durée exacte de l'extrait en secondes
+        const PREVIEW_DURATION = 42; 
 
         function togglePlay() {
+            // On récupère l'icône au moment du clic pour être sûr
+            const icon = document.getElementById('play-icon');
+
             if (audio.paused) {
                 audio.play();
-                playIcon.classList.remove('fa-play');
-                playIcon.classList.add('fa-pause');
+                // Utilisation de replace pour changer la classe de l'icône
+                icon.classList.replace('fa-play', 'fa-pause');
             } else {
                 audio.pause();
-                playIcon.classList.remove('fa-pause');
-                playIcon.classList.add('fa-play');
+                icon.classList.replace('fa-pause', 'fa-play');
             }
         }
 
         audio.addEventListener('timeupdate', () => {
-            // CALCUL DE LA BARRE BASÉ SUR 42s ET NON LA DURÉE TOTALE DU FICHIER
             const percentage = (audio.currentTime / PREVIEW_DURATION) * 100;
             progressBar.style.width = Math.min(percentage, 100) + '%';
             
-            // Timer visuel 00:00
             const m = Math.floor(audio.currentTime / 60);
             const s = Math.floor(audio.currentTime % 60);
             timerDisplay.innerText = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
@@ -538,9 +537,11 @@
             // STOPPER APRES 42 SECONDES
             if (audio.currentTime >= PREVIEW_DURATION) {
                 audio.pause();
-                audio.currentTime = 0; 
-                playIcon.classList.remove('fa-pause');
-                playIcon.classList.add('fa-play');
+                audio.currentTime = 0;
+                // On remet l'icône Play à la fin
+                const icon = document.getElementById('play-icon');
+                icon.classList.replace('fa-pause', 'fa-play');
+                
                 timerDisplay.innerText = "00:00";
                 progressBar.style.width = '0%';
             }
