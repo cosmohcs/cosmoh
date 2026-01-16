@@ -46,12 +46,16 @@
     </script>
 
     <style>
+        /* Bloquer le scroll du BODY pour gérer le scroll dans les sections */
         body {
             background-color: #000;
             color: #fff;
-            overflow-x: hidden;
+            overflow: hidden; /* Important : on bloque le scroll global */
+            height: 100vh;    /* Force la hauteur écran */
+            width: 100vw;
             font-family: 'VT323', monospace;
             cursor: crosshair;
+            position: fixed; /* Stabilise l'affichage mobile */
         }
 
         .crt::before {
@@ -97,27 +101,53 @@
             transform-origin: left;
         }
 
-        /* --- NAVIGATION --- */
+        /* --- CORRECTION SCROLL MOBILE --- */
         .page-section {
             display: none;
-            min-height: 100vh;
+            position: absolute;
+            top: 0; left: 0;
             width: 100%;
-            padding: 20px;
+            height: 100%; /* Prend toute la hauteur */
+            
+            /* Permet le scroll à l'intérieur de la section si le contenu dépasse */
+            overflow-y: auto; 
+            -webkit-overflow-scrolling: touch; /* Scroll fluide sur iPhone */
+            
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            /* On utilise min-height sur le contenu interne via flex, pas ici */
+            padding: 20px;
+            padding-bottom: 100px; /* Espace pour scroller jusqu'en bas */
+            
             opacity: 0;
-            /* Retour à la transition classique simple */
             transition: opacity 0.5s ease-in-out;
         }
         
-        .page-section.active {
+        /* Conteneur interne pour centrer le contenu quand il est petit, 
+           mais laisser scroller quand il est grand */
+        .section-content-wrapper {
+            min-height: 100%;
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .page-section.active {
+            display: block; /* On utilise block pour que le scroll fonctionne bien */
             opacity: 1;
         }
 
+        /* Splash Screen (Z-index très haut) */
+        #splash {
+            z-index: 9000;
+            display: flex; /* Toujours flex pour centrer */
+            justify-content: center;
+        }
+
         .back-btn {
-            position: absolute;
+            position: fixed; /* Fixe pour rester visible au scroll */
             top: 20px;
             left: 20px;
             font-family: 'VT323', monospace;
@@ -127,6 +157,7 @@
             z-index: 50;
             border: 1px solid #333;
             padding: 5px 15px;
+            background: rgba(0,0,0,0.8); /* Fond pour lisibilité sur contenu scrollé */
         }
         .back-btn:hover {
             color: #fff;
@@ -138,7 +169,7 @@
         #transition-layer {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 9000;
+            z-index: 5000;
             background-color: #000;
             display: none;
             justify-content: center;
@@ -161,7 +192,7 @@
 
     </style>
 </head>
-<body class="crt bg-black overflow-hidden relative h-screen w-screen">
+<body class="crt bg-black">
 
     <div id="transition-layer">
         <video id="transition-video" muted playsinline>
@@ -169,7 +200,7 @@
         </video>
     </div>
 
-    <section id="splash" class="page-section active bg-black z-50">
+    <section id="splash" class="page-section active bg-black">
         <div class="relative w-80 h-80">
             <img src="images/image_19.png" alt="Snake" class="w-full h-full object-contain animate-glitch filter contrast-125">
         </div>
@@ -177,24 +208,25 @@
     </section>
 
     <section id="home" class="page-section bg-black">
-        <div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
-            <img src="images/image_19.png" class="absolute top-10 right-10 w-40 animate-spin-slow opacity-50 mix-blend-difference">
-            <img src="images/image_19.png" class="absolute bottom-10 left-10 w-60 animate-float opacity-30 invert">
-        </div>
+        <div class="section-content-wrapper">
+            <div class="absolute inset-0 z-0 opacity-20 pointer-events-none fixed"> <img src="images/image_19.png" class="absolute top-10 right-10 w-40 animate-spin-slow opacity-50 mix-blend-difference">
+                <img src="images/image_19.png" class="absolute bottom-10 left-10 w-60 animate-float opacity-30 invert">
+            </div>
 
-        <h1 class="text-[5rem] md:text-[8rem] font-metal text-white mb-12 z-10 animate-float text-center leading-none select-none">
-            COSMOH
-        </h1>
+            <h1 class="text-[5rem] md:text-[8rem] font-metal text-white mb-12 z-10 animate-float text-center leading-none select-none">
+                COSMOH
+            </h1>
 
-        <nav class="flex flex-col gap-8 z-10 text-center">
-            <div class="nav-item" onclick="navigateTo('shows')">SHOWS</div>
-            <div class="nav-item text-red-600" onclick="navigateTo('stream')">STREAM</div>
-            <div class="nav-item" onclick="navigateTo('shop')">SHOP</div>
-        </nav>
+            <nav class="flex flex-col gap-8 z-10 text-center">
+                <div class="nav-item" onclick="navigateTo('shows')">SHOWS</div>
+                <div class="nav-item text-red-600" onclick="navigateTo('stream')">STREAM</div>
+                <div class="nav-item" onclick="navigateTo('shop')">SHOP</div>
+            </nav>
 
-        <div class="fixed bottom-0 w-full bg-red-600 text-black text-xl overflow-hidden whitespace-nowrap border-t border-white z-50">
-            <div class="inline-block animate-[scroll_10s_linear_infinite] py-1">
-                WELCOME TO THE VOID *** COSMOH ONLINE *** SORCELLERIE OUT NOW *** WELCOME TO THE VOID ***
+            <div class="fixed bottom-0 left-0 w-full bg-red-600 text-black text-xl overflow-hidden whitespace-nowrap border-t border-white z-50">
+                <div class="inline-block animate-[scroll_10s_linear_infinite] py-1">
+                    WELCOME TO THE VOID *** COSMOH ONLINE *** SORCELLERIE OUT NOW *** WELCOME TO THE VOID ***
+                </div>
             </div>
         </div>
     </section>
@@ -202,97 +234,101 @@
     <section id="shows" class="page-section bg-neutral-900">
         <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
         
-        <h2 class="text-6xl font-metal text-red-600 mb-12 border-b-2 border-white pb-2">ARCHIVES</h2>
+        <div class="section-content-wrapper">
+            <h2 class="text-6xl font-metal text-red-600 mb-12 border-b-2 border-white pb-2 mt-20">ARCHIVES</h2>
 
-        <div class="w-full max-w-2xl space-y-6">
-            <div class="border border-gray-700 p-6 hover:bg-white hover:text-black transition-colors group relative overflow-hidden">
-                <div class="absolute top-0 right-0 bg-red-600 text-white text-xs px-2 py-1 font-bold">COMPLET</div>
-                <div class="flex justify-between items-end">
-                    <div>
-                        <h3 class="text-3xl font-metal mb-1">MADAME MOUSTACHE</h3>
-                        <p class="text-xl text-gray-500 group-hover:text-black">BRUXELLES, BE</p>
+            <div class="w-full max-w-2xl space-y-6">
+                <div class="border border-gray-700 p-6 hover:bg-white hover:text-black transition-colors group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-red-600 text-white text-xs px-2 py-1 font-bold">COMPLET</div>
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <h3 class="text-3xl font-metal mb-1">MADAME MOUSTACHE</h3>
+                            <p class="text-xl text-gray-500 group-hover:text-black">BRUXELLES, BE</p>
+                        </div>
+                        <div class="text-2xl font-bold">FEV 2025</div>
                     </div>
-                    <div class="text-2xl font-bold">FEV 2025</div>
+                </div>
+
+                <div class="border border-gray-700 p-6 hover:bg-white hover:text-black transition-colors group relative overflow-hidden">
+                     <div class="absolute top-0 right-0 bg-red-600 text-white text-xs px-2 py-1 font-bold">COMPLET</div>
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <h3 class="text-3xl font-metal mb-1">MOVIDA CLUB</h3>
+                            <p class="text-xl text-gray-500 group-hover:text-black">PARIS, FR</p>
+                        </div>
+                        <div class="text-2xl font-bold">FEV 2025</div>
+                    </div>
                 </div>
             </div>
 
-            <div class="border border-gray-700 p-6 hover:bg-white hover:text-black transition-colors group relative overflow-hidden">
-                 <div class="absolute top-0 right-0 bg-red-600 text-white text-xs px-2 py-1 font-bold">COMPLET</div>
-                <div class="flex justify-between items-end">
-                    <div>
-                        <h3 class="text-3xl font-metal mb-1">MOVIDA CLUB</h3>
-                        <p class="text-xl text-gray-500 group-hover:text-black">PARIS, FR</p>
-                    </div>
-                    <div class="text-2xl font-bold">FEV 2025</div>
-                </div>
+            <div class="mt-16 border-2 border-dashed border-red-600 p-4 animate-pulse mb-10">
+                <p class="text-2xl font-pixel text-red-600">>>> DATES DISPONIBLES PROCHAINEMENT <<<</p>
             </div>
-        </div>
-
-        <div class="mt-16 border-2 border-dashed border-red-600 p-4 animate-pulse">
-            <p class="text-2xl font-pixel text-red-600">>>> DATES DISPONIBLES PROCHAINEMENT <<<</p>
         </div>
     </section>
 
     <section id="stream" class="page-section bg-black">
         <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
 
-        <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-20">
-            
-            <div class="flex flex-col items-center">
-                <div class="relative w-72 h-72 border-4 border-white shadow-[10px_10px_0px_#ff0000] mb-8">
-                    <img src="images/cover sorcellerie.jpeg" alt="Sorcellerie Cover" class="w-full h-full object-cover">
-                </div>
-                <h2 class="text-5xl font-metal text-center">SORCELLERIE</h2>
-                <p class="text-gray-400 font-pixel text-xl tracking-widest">SINGLE • 2026</p>
-            </div>
-
-            <div class="flex flex-col gap-4 w-full">
+        <div class="section-content-wrapper">
+            <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-20 mt-20 md:mt-0">
                 
-                <a href="TON_LIEN_SPOTIFY" target="_blank" class="bg-black border border-white p-4 flex justify-between items-center hover:bg-green-600 hover:text-black hover:border-black transition-all">
-                    <span class="font-pixel text-2xl">SPOTIFY</span>
-                    <i class="fab fa-spotify text-2xl"></i>
-                </a>
-                
-                <a href="TON_LIEN_APPLE" target="_blank" class="bg-black border border-white p-4 flex justify-between items-center hover:bg-gray-200 hover:text-black hover:border-black transition-all">
-                    <span class="font-pixel text-2xl">APPLE MUSIC</span>
-                    <i class="fab fa-apple text-2xl"></i>
-                </a>
-
-                <a href="TON_LIEN_DEEZER" target="_blank" class="bg-black border border-white p-4 flex justify-between items-center hover:bg-purple-600 hover:text-black hover:border-black transition-all">
-                    <span class="font-pixel text-2xl">DEEZER</span>
-                    <i class="fab fa-deezer text-2xl"></i>
-                </a>
-
-                <div class="mt-6 w-full aspect-video border-2 border-red-600 bg-black relative group cursor-pointer" 
-                     onclick="this.innerHTML='<iframe class=\'w-full h-full\' src=\'https://www.youtube.com/embed/ECHCOakj5Xs?autoplay=1\' frameborder=\'0\' allow=\'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen></iframe>'">
-                    
-                    <div class="absolute -top-6 left-0 text-red-600 font-pixel z-20 bg-black px-1">WATCH VIDEO_CLIP.mp4</div>
-                    
-                    <img src="https://img.youtube.com/vi/ECHCOakj5Xs/maxresdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
-                    
-                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <i class="fas fa-play text-4xl text-white opacity-70 group-hover:text-red-600 group-hover:scale-125 transition-all"></i>
+                <div class="flex flex-col items-center">
+                    <div class="relative w-72 h-72 border-4 border-white shadow-[10px_10px_0px_#ff0000] mb-8">
+                        <img src="images/cover sorcellerie.jpeg" alt="Sorcellerie Cover" class="w-full h-full object-cover">
                     </div>
+                    <h2 class="text-5xl font-metal text-center">SORCELLERIE</h2>
+                    <p class="text-gray-400 font-pixel text-xl tracking-widest">SINGLE • 2026</p>
                 </div>
 
+                <div class="flex flex-col gap-4 w-full pb-10"> <a href="TON_LIEN_SPOTIFY" target="_blank" class="bg-black border border-white p-4 flex justify-between items-center hover:bg-green-600 hover:text-black hover:border-black transition-all">
+                        <span class="font-pixel text-2xl">SPOTIFY</span>
+                        <i class="fab fa-spotify text-2xl"></i>
+                    </a>
+                    
+                    <a href="TON_LIEN_APPLE" target="_blank" class="bg-black border border-white p-4 flex justify-between items-center hover:bg-gray-200 hover:text-black hover:border-black transition-all">
+                        <span class="font-pixel text-2xl">APPLE MUSIC</span>
+                        <i class="fab fa-apple text-2xl"></i>
+                    </a>
+
+                    <a href="TON_LIEN_DEEZER" target="_blank" class="bg-black border border-white p-4 flex justify-between items-center hover:bg-purple-600 hover:text-black hover:border-black transition-all">
+                        <span class="font-pixel text-2xl">DEEZER</span>
+                        <i class="fab fa-deezer text-2xl"></i>
+                    </a>
+
+                    <div class="mt-6 w-full aspect-video border-2 border-red-600 bg-black relative group cursor-pointer" 
+                         onclick="this.innerHTML='<iframe class=\'w-full h-full\' src=\'https://www.youtube.com/embed/ECHCOakj5Xs?autoplay=1\' frameborder=\'0\' allow=\'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen></iframe>'">
+                        
+                        <div class="absolute -top-6 left-0 text-red-600 font-pixel z-20 bg-black px-1">WATCH VIDEO_CLIP.mp4</div>
+                        
+                        <img src="https://img.youtube.com/vi/ECHCOakj5Xs/maxresdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
+                        
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <i class="fas fa-play text-4xl text-white opacity-70 group-hover:text-red-600 group-hover:scale-125 transition-all"></i>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </section>
 
     <section id="shop" class="page-section bg-black">
         <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
+        
+        <div class="section-content-wrapper">
+            <div class="absolute inset-0 flex justify-center items-center opacity-10 pointer-events-none">
+                <i class="fas fa-lock text-[20rem]"></i>
+            </div>
 
-        <div class="absolute inset-0 flex justify-center items-center opacity-10 pointer-events-none">
-            <i class="fas fa-lock text-[20rem]"></i>
-        </div>
-
-        <div class="z-10 text-center border-4 border-white p-10 bg-black max-w-lg shadow-[15px_15px_0px_#333]">
-            <h2 class="text-6xl font-metal text-white mb-4">SHOP CLOSED</h2>
-            <div class="w-full h-1 bg-red-600 mb-6"></div>
-            <p class="text-2xl font-pixel text-gray-300 mb-8 blink">ACCESS DENIED</p>
-            
-            <div class="bg-red-600 text-black font-bold p-2 text-xl inline-block rotate-2">
-                DISPONIBLE PROCHAINEMENT
+            <div class="z-10 text-center border-4 border-white p-10 bg-black max-w-lg shadow-[15px_15px_0px_#333]">
+                <h2 class="text-6xl font-metal text-white mb-4">SHOP CLOSED</h2>
+                <div class="w-full h-1 bg-red-600 mb-6"></div>
+                <p class="text-2xl font-pixel text-gray-300 mb-8 blink">ACCESS DENIED</p>
+                
+                <div class="bg-red-600 text-black font-bold p-2 text-xl inline-block rotate-2">
+                    DISPONIBLE PROCHAINEMENT
+                </div>
             </div>
         </div>
     </section>
@@ -308,7 +344,7 @@
                 transitionLayer.style.display = 'flex';
                 transitionVideo.play();
                 
-                // Préparer la page derrière
+                // On met à jour l'arrière plan pour qu'il soit prêt quand la vidéo finira
                 performNavigation(pageId); 
 
                 transitionVideo.onended = function() {
@@ -322,31 +358,30 @@
             }
         }
 
-        // Retour à la logique de navigation simple d'il y a 3 versions
         function performNavigation(pageId) {
             document.querySelectorAll('.page-section').forEach(section => {
-                section.classList.remove('active');
-                
-                // On cache les sections après la transition CSS (0.5s)
-                setTimeout(() => {
-                    if(!section.classList.contains('active')) {
-                        section.style.display = 'none';
+                // Si ce n'est pas le splash screen (qu'on gère à part au début)
+                if(section.id !== 'splash') {
+                    if (section.id === pageId) {
+                        // On active la section
+                        section.classList.add('active');
+                        // IMPORTANT : On remonte le scroll en haut à chaque changement de page
+                        section.scrollTop = 0;
+                    } else {
+                        // On désactive
+                        section.classList.remove('active');
                     }
-                }, 500);
+                }
             });
-
-            const target = document.getElementById(pageId);
-            target.style.display = 'flex';
-            // Petit délai pour permettre l'animation d'opacité
-            setTimeout(() => {
-                target.classList.add('active');
-            }, 10);
         }
 
-        // Chargement Simple (Retour version précédente)
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 navigateTo('home');
+                // On cache le splash après la transition
+                setTimeout(() => {
+                    document.getElementById('splash').style.display = 'none';
+                }, 1000);
             }, 3000);
         });
 
