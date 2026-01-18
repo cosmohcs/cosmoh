@@ -26,7 +26,6 @@
                         'glitch': 'glitch 0.2s infinite',
                         'float': 'float 6s ease-in-out infinite',
                         'spin-slow': 'spin 15s linear infinite',
-                        'pulse-fast': 'pulse 0.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         glitch: {
@@ -207,18 +206,6 @@
             width: 0%;
             box-shadow: 0 0 10px #ff0000;
         }
-
-        /* --- RADIO EQUALIZER --- */
-        .equalizer-bar {
-            width: 10px;
-            background: #ff0000;
-            animation: equalizer 0.5s infinite;
-        }
-        @keyframes equalizer {
-            0% { height: 10%; }
-            50% { height: 100%; }
-            100% { height: 10%; }
-        }
     </style>
 </head>
 <body class="crt bg-black">
@@ -247,14 +234,9 @@
                 COSMOH
             </h1>
 
-            <nav class="flex flex-col gap-4 z-10 text-center">
+            <nav class="flex flex-col gap-6 z-10 text-center">
                 <div class="nav-item" onclick="navigateTo('shows')">SHOWS</div>
                 <div class="nav-item text-red-600" onclick="navigateTo('stream')">STREAM</div>
-                
-                <div class="nav-item relative group" onclick="navigateTo('radio')">
-                    RADIO <span class="absolute -right-6 top-0 text-sm text-red-600 font-pixel animate-pulse-fast">LIVE</span>
-                </div>
-                
                 <div class="nav-item" onclick="navigateTo('exclusive')">EXCLUSIVE</div>
                 <div class="nav-item" onclick="navigateTo('shop')">SHOP</div>
             </nav>
@@ -326,48 +308,12 @@
                     <div class="mt-6 w-full aspect-video border-2 border-red-600 bg-black relative group cursor-pointer" 
                          onclick="this.innerHTML='<iframe class=\'w-full h-full\' src=\'https://www.youtube.com/embed/9skHNTwh_SQ?autoplay=1\' frameborder=\'0\' allow=\'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen></iframe>'">
                         <div class="absolute -top-6 left-0 text-red-600 font-pixel z-20 bg-black px-1">WATCH VIDEO_CLIP.mp4</div>
-                        <img src="https://img.youtube.com/vi/9skHNTwh_SQ/maxresdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
+                        <img src="https://i.ytimg.com/vi/9skHNTwh_SQ/hqdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
                         <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
                             <i class="fas fa-play text-4xl text-white opacity-70 group-hover:text-red-600 group-hover:scale-125 transition-all"></i>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="radio" class="page-section bg-black">
-        <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
-        <div class="section-content-wrapper">
-            <div class="text-center w-full max-w-lg relative">
-                <h2 class="text-6xl font-metal text-white mb-2 animate-glitch">RADIO COSMOH</h2>
-                <div class="text-red-600 font-pixel text-2xl mb-10 border-b border-red-600 inline-block px-4 animate-pulse">
-                    LIVE BROADCAST /// 24/7
-                </div>
-                <div class="border-4 border-white bg-[#050505] p-6 shadow-[0_0_30px_rgba(255,0,0,0.3)]">
-                    <div class="flex justify-center gap-1 h-20 items-end mb-6 opacity-80">
-                        <div class="equalizer-bar" style="animation-delay: 0.1s"></div>
-                        <div class="equalizer-bar" style="animation-delay: 0.3s"></div>
-                        <div class="equalizer-bar" style="animation-delay: 0.5s"></div>
-                        <div class="equalizer-bar" style="animation-delay: 0.2s"></div>
-                        <div class="equalizer-bar" style="animation-delay: 0.4s"></div>
-                        <div class="equalizer-bar" style="animation-delay: 0.1s"></div>
-                    </div>
-                    <div class="bg-red-900 border border-red-600 text-black font-pixel text-xl p-2 mb-6 overflow-hidden">
-                        <div id="radio-marquee" class="whitespace-nowrap">
-                            WAITING FOR SIGNAL...
-                        </div>
-                    </div>
-                    <div class="flex justify-center gap-8 text-4xl">
-                        <button id="radio-play-btn" onclick="toggleRadio()" class="text-white hover:text-red-600 hover:scale-110 transition-all">
-                            <i class="fas fa-play" id="radio-icon"></i>
-                        </button>
-                    </div>
-                    <div class="mt-4 text-xs font-mono text-gray-500">
-                        FREQ: 66.6 FM | STEREO
-                    </div>
-                </div>
-                <audio id="radio-player"></audio>
             </div>
         </div>
     </section>
@@ -392,7 +338,9 @@
                 </div>
 
                 <div id="state-active" class="hidden w-full px-4">
+                    
                     <div class="audio-player-container mx-auto mb-8 relative group">
+
                         <div class="flex justify-between items-center mb-6 border-b border-gray-800 pb-2">
                             <span class="font-pixel text-lg text-white">WINAMP_V1.0.exe</span>
                             <div class="flex gap-2">
@@ -400,6 +348,7 @@
                                 <span class="font-pixel text-xs text-red-600">LIVE</span>
                             </div>
                         </div>
+
                         <div class="flex items-center gap-6">
                             <button id="play-btn" class="w-16 h-16 border-2 border-white flex items-center justify-center hover:bg-white hover:text-black transition-colors" onclick="togglePlay()">
                                 <i class="fas fa-play text-xl" id="play-icon"></i>
@@ -412,9 +361,11 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="audio-progress" onclick="setProgress(event)">
                             <div class="audio-progress-bar" id="progress-bar"></div>
                         </div>
+                        
                         <audio id="audio-file" src="images/exclu.mp3"></audio> 
                     </div>
 
@@ -431,6 +382,7 @@
                     <i class="fas fa-skull-crossbones text-red-600 text-9xl mb-8 animate-pulse"></i>
                     <h2 class="text-6xl font-metal text-white mb-4">TROP TARD</h2>
                     <p class="font-pixel text-xl text-gray-400 mb-8 max-w-md">LE DÉLAI DE 48H EST ÉCOULÉ. FICHIER SUPPRIMÉ DU SERVEUR.</p>
+                    
                     <div class="border-2 border-dashed border-red-600 p-6">
                         <p class="font-pixel text-white mb-4">NE RATE PAS LA PROCHAINE EXCLU :</p>
                         <div class="flex gap-4 justify-center text-3xl">
@@ -440,6 +392,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -472,12 +425,6 @@
                 audioExclu.pause();
                 const icon = document.getElementById('play-icon');
                 if(icon) icon.classList.replace('fa-pause', 'fa-play');
-            }
-            const radioPlayer = document.getElementById('radio-player');
-            if(radioPlayer) {
-                radioPlayer.pause();
-                const radioIcon = document.getElementById('radio-icon');
-                if(radioIcon) radioIcon.classList.replace('fa-pause', 'fa-play');
             }
         }
 
@@ -524,55 +471,15 @@
             startCountdown();
         });
 
-        // --- RADIO LOGIC ---
-        const playlist = [
-            { title: "COSMOH - TRACK 1", src: "images/track1.mp3" },
-            { title: "COSMOH - TRACK 2", src: "images/track2.mp3" },
-            { title: "COSMOH - TRACK 3", src: "images/track3.mp3" }
-        ];
-        
-        let currentTrackIndex = 0;
-        const radioPlayer = document.getElementById('radio-player');
-        const radioMarquee = document.getElementById('radio-marquee');
-        const radioIcon = document.getElementById('radio-icon');
-
-        function toggleRadio() {
-            if (radioPlayer.paused) {
-                if (!radioPlayer.src || radioPlayer.src === window.location.href) {
-                    playTrack(0);
-                } else {
-                    radioPlayer.play();
-                }
-                radioIcon.classList.replace('fa-play', 'fa-pause');
-            } else {
-                radioPlayer.pause();
-                radioIcon.classList.replace('fa-pause', 'fa-play');
-            }
-        }
-
-        function playTrack(index) {
-            if (index >= playlist.length) index = 0;
-            currentTrackIndex = index;
-            
-            radioPlayer.src = playlist[index].src;
-            radioPlayer.play().catch(e => console.log("Erreur lecture radio"));
-            radioMarquee.innerText = "*** NOW PLAYING: " + playlist[index].title + " *** ";
-            radioIcon.classList.replace('fa-play', 'fa-pause');
-        }
-
-        radioPlayer.addEventListener('ended', () => {
-            playTrack(currentTrackIndex + 1);
-        });
-
-        // --- TIMER LOGIC (REAL DATE) ---
+        // --- TIMER LOGIC (22H START) ---
         function startCountdown() {
             const timerElement = document.getElementById('countdown');
             const stateUpcoming = document.getElementById('state-upcoming');
             const stateActive = document.getElementById('state-active');
             const stateExpired = document.getElementById('state-expired');
 
-            // DATE REELLE : 18 JAN 2026 21H30
-            const startDate = new Date('2026-01-18T21:30:00');
+            // DEBUT : 18 JAN 2026 22H00
+            const startDate = new Date('2026-01-18T22:00:00');
             // DUREE : 48H
             const endDate = new Date(startDate.getTime() + (48 * 60 * 60 * 1000)); 
 
@@ -583,11 +490,11 @@
                     stateUpcoming.style.display = 'block';
                     stateActive.style.display = 'none';
                     stateExpired.style.display = 'none';
-                    const distance = startDate.getTime() - now; // Countdown to start
-                    updateTimerDisplay(distance, timerElement, "STARTS IN: ");
+                    const distance = startDate.getTime() - now; 
+                    updateTimerDisplay(distance, timerElement, "");
                 } 
                 else if (now >= startDate.getTime() && now < endDate.getTime()) {
-                    const distance = endDate.getTime() - now; // Countdown to end
+                    const distance = endDate.getTime() - now;
                     stateUpcoming.style.display = 'none';
                     stateActive.style.display = 'block';
                     stateExpired.style.display = 'none';
@@ -605,7 +512,6 @@
 
         function updateTimerDisplay(distance, element, prefix) {
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            // Add days to hours if countdown is > 24h
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const totalHours = hours + (days * 24);
 
