@@ -356,7 +356,7 @@
                             <div class="text-left overflow-hidden w-full">
                                 <div class="font-metal text-2xl truncate text-white">RALLYE (LEAK)</div>
                                 <div class="flex justify-between items-end">
-                                    <div class="font-pixel text-gray-500 text-sm">MP3 /// 42s PREVIEW</div>
+                                    <div class="font-pixel text-gray-500 text-sm">MP3 /// STREAM ONLY</div>
                                     <div id="timer-display" class="font-mono text-red-500 text-xs">00:00</div>
                                 </div>
                             </div>
@@ -366,16 +366,10 @@
                             <div class="audio-progress-bar" id="progress-bar"></div>
                         </div>
                         
-                        <audio id="audio-file" src="images/exclu.mp3"></audio> 
+                        <audio id="audio-file"></audio> 
                     </div>
 
-                    <a href="images/exclu.mp3" download="COSMOH - RALLYE (LEAK).mp3" class="relative inline-block group">
-                        <div class="absolute inset-0 bg-red-900 blur-md opacity-20 group-hover:opacity-60 transition-opacity"></div>
-                        <button class="relative bg-black text-white font-bold font-pixel text-xl px-10 py-4 border-2 border-red-600 hover:bg-red-600 hover:text-black transition-all">
-                            <i class="fas fa-save mr-2"></i> TÉLÉCHARGER LE LEAK EN ENTIER
-                        </button>
-                    </a>
-                    <p class="mt-4 font-sys text-[10px] text-gray-600">HASH: 8a9f... | SERVER: BRUSSELS_01</p>
+                    <p class="mt-4 font-sys text-[10px] text-gray-600">HASH: 8a9f... | SERVER: BRUSSELS_01 | STREAM ONLY</p>
                 </div>
 
                 <div id="state-expired" class="hidden">
@@ -386,9 +380,9 @@
                     <div class="border-2 border-dashed border-red-600 p-6">
                         <p class="font-pixel text-white mb-4">NE RATE PAS LA PROCHAINE EXCLU :</p>
                         <div class="flex gap-4 justify-center text-3xl">
-                            <a href="#" class="hover:text-red-600"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="hover:text-red-600"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="hover:text-red-600"><i class="fab fa-tiktok"></i></a>
+                            <a href="https://www.instagram.com/cosmohcs/" target="_blank" class="hover:text-red-600"><i class="fab fa-instagram"></i></a>
+                            <a href="https://x.com/cosmohcs" target="_blank" class="hover:text-red-600"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.tiktok.com/@cosmohcs" target="_blank" class="hover:text-red-600"><i class="fab fa-tiktok"></i></a>
                         </div>
                     </div>
                 </div>
@@ -471,12 +465,14 @@
             startCountdown();
         });
 
-        // --- TIMER LOGIC (22H START) ---
+        // --- TIMER LOGIC (22H START) & SECURITY ---
         function startCountdown() {
             const timerElement = document.getElementById('countdown');
             const stateUpcoming = document.getElementById('state-upcoming');
             const stateActive = document.getElementById('state-active');
             const stateExpired = document.getElementById('state-expired');
+            const audioFile = document.getElementById('audio-file');
+            const EXCLU_SOURCE = "images/exclu.mp3"; // Définition de la source ici
 
             // DEBUT : 18 JAN 2026 22H00
             const startDate = new Date('2026-01-18T22:00:00');
@@ -490,6 +486,10 @@
                     stateUpcoming.style.display = 'block';
                     stateActive.style.display = 'none';
                     stateExpired.style.display = 'none';
+                    
+                    // SECURITY: Ensure source is empty
+                    if(audioFile.src.includes(EXCLU_SOURCE)) audioFile.src = "";
+
                     const distance = startDate.getTime() - now; 
                     updateTimerDisplay(distance, timerElement, "");
                 } 
@@ -499,6 +499,12 @@
                     stateActive.style.display = 'block';
                     stateExpired.style.display = 'none';
                     updateTimerDisplay(distance, timerElement, "");
+                    
+                    // SECURITY: Inject file source ONLY when valid
+                    // We check if it is already set to avoid reloading it every second
+                    if (!audioFile.getAttribute('src')) {
+                        audioFile.src = EXCLU_SOURCE;
+                    }
                 } 
                 else {
                     clearInterval(interval);
@@ -506,6 +512,10 @@
                     stateActive.style.display = 'none';
                     stateExpired.style.display = 'block';
                     timerElement.innerText = "00:00:00";
+                    
+                    // SECURITY: Kill the file source immediately
+                    audioFile.src = "";
+                    audioFile.removeAttribute("src");
                 }
             }, 1000);
         }
@@ -524,14 +534,22 @@
                 (seconds < 10 ? "0" + seconds : seconds);
         }
 
-        // --- AUDIO PLAYER (42s Limit) ---
+        // --- AUDIO PLAYER (42s Limit Removed? No, keeping preview logic if file is full, or full if file is full) ---
+        // Assuming file is the full leak now since you want "Exclu", but preview duration logic remains visual.
         const audio = document.getElementById('audio-file');
         const progressBar = document.getElementById('progress-bar');
         const timerDisplay = document.getElementById('timer-display');
+        
+        // NOTE: Si le fichier est l'entier, retirer cette limite ou l'ajuster
         const PREVIEW_DURATION = 42; 
 
         function togglePlay() {
             const icon = document.getElementById('play-icon');
+            // Check if source is valid (security check)
+            if (!audio.src || audio.src === window.location.href) {
+                 return; // Do nothing if no source
+            }
+
             if (audio.paused) {
                 audio.play();
                 icon.classList.replace('fa-play', 'fa-pause');
@@ -542,21 +560,32 @@
         }
 
         audio.addEventListener('timeupdate', () => {
-            const percentage = (audio.currentTime / PREVIEW_DURATION) * 100;
+            // Using actual duration if available, fallback to preview duration for visual bar
+            const duration = audio.duration || PREVIEW_DURATION; 
+            const percentage = (audio.currentTime / duration) * 100;
             progressBar.style.width = Math.min(percentage, 100) + '%';
             
             const m = Math.floor(audio.currentTime / 60);
             const s = Math.floor(audio.currentTime % 60);
             timerDisplay.innerText = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
 
-            if (audio.currentTime >= PREVIEW_DURATION) {
+            // Optional: Keep the preview limit logic if needed, remove if you want full song playback
+            /* if (audio.currentTime >= PREVIEW_DURATION) {
                 audio.pause();
                 audio.currentTime = 0;
                 const icon = document.getElementById('play-icon');
                 icon.classList.replace('fa-pause', 'fa-play');
                 timerDisplay.innerText = "00:00";
                 progressBar.style.width = '0%';
-            }
+            } 
+            */
+        });
+
+        // Reset icon on end
+        audio.addEventListener('ended', () => {
+            const icon = document.getElementById('play-icon');
+            icon.classList.replace('fa-pause', 'fa-play');
+            progressBar.style.width = '0%';
         });
 
         document.head.insertAdjacentHTML("beforeend", `<style>
