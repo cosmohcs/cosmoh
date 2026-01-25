@@ -324,7 +324,7 @@
             
             <div id="exclusive-container" class="flex flex-col items-center w-full max-w-xl text-center mt-10">
                 
-                <h2 id="exclusive-title" class="text-4xl font-pixel text-red-600 mb-2">*** EXCLU 48H : RALLYE ***</h2>
+                <h2 id="exclusive-title" class="text-4xl font-pixel text-red-600 mb-2">*** EXCLU 48H : DOLCE GABBANA ***</h2>
                 <div id="countdown" class="text-6xl font-metal text-white mb-8 border-2 border-white px-6 py-2 bg-black">
                     --:--:--
                 </div>
@@ -354,7 +354,7 @@
                                 <i class="fas fa-play text-xl" id="play-icon"></i>
                             </button>
                             <div class="text-left overflow-hidden w-full">
-                                <div class="font-metal text-2xl truncate text-white">RALLYE (LEAK)</div>
+                                <div class="font-metal text-2xl truncate text-white">DOLCE GABBANA (LEAK)</div>
                                 <div class="flex justify-between items-end">
                                     <div class="font-pixel text-gray-500 text-sm">MP3 /// STREAM ONLY</div>
                                     <div id="timer-display" class="font-mono text-red-500 text-xs">00:00</div>
@@ -369,7 +369,7 @@
                         <audio id="audio-file"></audio> 
                     </div>
 
-                    <p class="mt-4 font-sys text-[10px] text-gray-600">HASH: 8a9f... | SERVER: BRUSSELS_01 | STREAM ONLY</p>
+                    <p class="mt-4 font-sys text-[10px] text-gray-600">FILE: Cosmoh - DG (LEAK) | SERVER: BRUSSELS_01 | STREAM ONLY</p>
                 </div>
 
                 <div id="state-expired" class="hidden">
@@ -465,17 +465,19 @@
             startCountdown();
         });
 
-        // --- TIMER LOGIC (22H START) & SECURITY ---
+        // --- TIMER LOGIC (DOLCE GABBANA LEAK) ---
         function startCountdown() {
             const timerElement = document.getElementById('countdown');
             const stateUpcoming = document.getElementById('state-upcoming');
             const stateActive = document.getElementById('state-active');
             const stateExpired = document.getElementById('state-expired');
             const audioFile = document.getElementById('audio-file');
-            const EXCLU_SOURCE = "images/exclu.mp3"; // Définition de la source ici
+            
+            // IMPORTANT: Nomme ton fichier "dg_leak.mp3" dans le dossier "images"
+            const EXCLU_SOURCE = "images/dg_leak.mp3"; 
 
-            // DEBUT : 18 JAN 2026 22H00
-            const startDate = new Date('2026-01-18T22:00:00');
+            // DEBUT : 25 JAN 2026 14H00
+            const startDate = new Date('2026-01-25T14:00:00');
             // DUREE : 48H
             const endDate = new Date(startDate.getTime() + (48 * 60 * 60 * 1000)); 
 
@@ -501,7 +503,6 @@
                     updateTimerDisplay(distance, timerElement, "");
                     
                     // SECURITY: Inject file source ONLY when valid
-                    // We check if it is already set to avoid reloading it every second
                     if (!audioFile.getAttribute('src')) {
                         audioFile.src = EXCLU_SOURCE;
                     }
@@ -534,13 +535,11 @@
                 (seconds < 10 ? "0" + seconds : seconds);
         }
 
-        // --- AUDIO PLAYER (42s Limit Removed? No, keeping preview logic if file is full, or full if file is full) ---
-        // Assuming file is the full leak now since you want "Exclu", but preview duration logic remains visual.
+        // --- AUDIO PLAYER (42s Limit Removed? No, keeping visual consistency) ---
         const audio = document.getElementById('audio-file');
         const progressBar = document.getElementById('progress-bar');
         const timerDisplay = document.getElementById('timer-display');
         
-        // NOTE: Si le fichier est l'entier, retirer cette limite ou l'ajuster
         const PREVIEW_DURATION = 42; 
 
         function togglePlay() {
@@ -560,7 +559,6 @@
         }
 
         audio.addEventListener('timeupdate', () => {
-            // Using actual duration if available, fallback to preview duration for visual bar
             const duration = audio.duration || PREVIEW_DURATION; 
             const percentage = (audio.currentTime / duration) * 100;
             progressBar.style.width = Math.min(percentage, 100) + '%';
@@ -568,17 +566,6 @@
             const m = Math.floor(audio.currentTime / 60);
             const s = Math.floor(audio.currentTime % 60);
             timerDisplay.innerText = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
-
-            // Optional: Keep the preview limit logic if needed, remove if you want full song playback
-            /* if (audio.currentTime >= PREVIEW_DURATION) {
-                audio.pause();
-                audio.currentTime = 0;
-                const icon = document.getElementById('play-icon');
-                icon.classList.replace('fa-pause', 'fa-play');
-                timerDisplay.innerText = "00:00";
-                progressBar.style.width = '0%';
-            } 
-            */
         });
 
         // Reset icon on end
