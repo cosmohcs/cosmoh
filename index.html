@@ -337,9 +337,9 @@
                     </div>
                 </div>
 
-                <div id="state-active" class="hidden w-full px-4">
+                <div id="state-active" class="hidden w-full px-4 flex flex-col items-center">
                     
-                    <div class="audio-player-container mx-auto mb-8 relative group">
+                    <div class="audio-player-container mx-auto mb-4 relative group w-full">
 
                         <div class="flex justify-between items-center mb-6 border-b border-gray-800 pb-2">
                             <span class="font-pixel text-lg text-white">WINAMP_V1.0.exe</span>
@@ -354,9 +354,9 @@
                                 <i class="fas fa-play text-xl" id="play-icon"></i>
                             </button>
                             <div class="text-left overflow-hidden w-full">
-                                <div class="font-metal text-2xl truncate text-white">DOLCE GABBANA (LEAK)</div>
+                                <div class="font-metal text-2xl truncate text-white">DOLCE GABBANA</div>
                                 <div class="flex justify-between items-end">
-                                    <div class="font-pixel text-gray-500 text-sm">MP3 /// STREAM ONLY</div>
+                                    <div class="font-pixel text-gray-500 text-sm">PREVIEW 40s /// MP3</div>
                                     <div id="timer-display" class="font-mono text-red-500 text-xs">00:00</div>
                                 </div>
                             </div>
@@ -369,7 +369,14 @@
                         <audio id="audio-file"></audio> 
                     </div>
 
-                    <p class="mt-4 font-sys text-[10px] text-gray-600">FILE: Cosmoh - DG (LEAK) | SERVER: BRUSSELS_01 | STREAM ONLY</p>
+                    <a id="download-link" href="#" class="relative inline-block group mt-8 hidden">
+                        <div class="absolute inset-0 bg-red-900 blur-md opacity-20 group-hover:opacity-60 transition-opacity"></div>
+                        <button class="relative bg-black text-white font-bold font-pixel text-xl px-10 py-4 border-2 border-red-600 hover:bg-red-600 hover:text-black transition-all">
+                            <i class="fas fa-save mr-2"></i> TÉLÉCHARGER LE LEAK EN ENTIER
+                        </button>
+                    </a>
+
+                    <p class="mt-4 font-sys text-[10px] text-gray-600">FILE: Cosmoh - DG (LEAK) | SERVER: BRUSSELS_01 | 48H ACCESS</p>
                 </div>
 
                 <div id="state-expired" class="hidden">
@@ -471,13 +478,15 @@
             const stateUpcoming = document.getElementById('state-upcoming');
             const stateActive = document.getElementById('state-active');
             const stateExpired = document.getElementById('state-expired');
-            const audioFile = document.getElementById('audio-file');
             
-            // IMPORTANT: Nomme ton fichier "dg_leak.mp3" dans le dossier "images"
-            const EXCLU_SOURCE = "images/dg_leak.mp3"; 
+            const audioFile = document.getElementById('audio-file');
+            const downloadLink = document.getElementById('download-link');
+            
+            // --- FICHIER UNIQUE (FULL) SUR GITHUB ---
+            const SOURCE_FILE = "images/dg_leak.mp3"; 
 
-            // DEBUT : 25 JAN 2026 14H00
-            const startDate = new Date('2026-01-25T14:00:00');
+            // DEBUT : 25 JAN 2026 14H30
+            const startDate = new Date('2026-01-25T14:30:00');
             // DUREE : 48H
             const endDate = new Date(startDate.getTime() + (48 * 60 * 60 * 1000)); 
 
@@ -489,8 +498,10 @@
                     stateActive.style.display = 'none';
                     stateExpired.style.display = 'none';
                     
-                    // SECURITY: Ensure source is empty
-                    if(audioFile.src.includes(EXCLU_SOURCE)) audioFile.src = "";
+                    // SECURITY: Clear sources
+                    if(audioFile.src.includes(SOURCE_FILE)) audioFile.src = "";
+                    downloadLink.href = "#";
+                    downloadLink.classList.add('hidden');
 
                     const distance = startDate.getTime() - now; 
                     updateTimerDisplay(distance, timerElement, "");
@@ -498,14 +509,19 @@
                 else if (now >= startDate.getTime() && now < endDate.getTime()) {
                     const distance = endDate.getTime() - now;
                     stateUpcoming.style.display = 'none';
-                    stateActive.style.display = 'block';
+                    stateActive.style.display = 'flex'; 
                     stateExpired.style.display = 'none';
                     updateTimerDisplay(distance, timerElement, "");
                     
-                    // SECURITY: Inject file source ONLY when valid
+                    // ACTIVATION : Inject sources
                     if (!audioFile.getAttribute('src')) {
-                        audioFile.src = EXCLU_SOURCE;
+                        audioFile.src = SOURCE_FILE;
                     }
+                    
+                    // Configurer le bouton de téléchargement avec le même fichier mais nom différent
+                    downloadLink.href = SOURCE_FILE;
+                    downloadLink.setAttribute('download', 'Cosmoh - DG (LEAK).mp3');
+                    downloadLink.classList.remove('hidden');
                 } 
                 else {
                     clearInterval(interval);
@@ -514,9 +530,11 @@
                     stateExpired.style.display = 'block';
                     timerElement.innerText = "00:00:00";
                     
-                    // SECURITY: Kill the file source immediately
+                    // SECURITY: Kill sources
                     audioFile.src = "";
                     audioFile.removeAttribute("src");
+                    downloadLink.href = "#";
+                    downloadLink.classList.add('hidden');
                 }
             }, 1000);
         }
@@ -535,19 +553,17 @@
                 (seconds < 10 ? "0" + seconds : seconds);
         }
 
-        // --- AUDIO PLAYER (42s Limit Removed? No, keeping visual consistency) ---
+        // --- AUDIO PLAYER (FORCED PREVIEW LOGIC - 40s) ---
         const audio = document.getElementById('audio-file');
         const progressBar = document.getElementById('progress-bar');
         const timerDisplay = document.getElementById('timer-display');
         
-        const PREVIEW_DURATION = 42; 
+        // LIMITATION VIRTUELLE A 40 SECONDES
+        const MAX_PREVIEW_TIME = 40; 
 
         function togglePlay() {
             const icon = document.getElementById('play-icon');
-            // Check if source is valid (security check)
-            if (!audio.src || audio.src === window.location.href) {
-                 return; // Do nothing if no source
-            }
+            if (!audio.src || audio.src === window.location.href) return; 
 
             if (audio.paused) {
                 audio.play();
@@ -559,16 +575,26 @@
         }
 
         audio.addEventListener('timeupdate', () => {
-            const duration = audio.duration || PREVIEW_DURATION; 
-            const percentage = (audio.currentTime / duration) * 100;
+            // On calcule la progression sur 40s et non sur la durée totale du fichier
+            const percentage = (audio.currentTime / MAX_PREVIEW_TIME) * 100;
             progressBar.style.width = Math.min(percentage, 100) + '%';
             
             const m = Math.floor(audio.currentTime / 60);
             const s = Math.floor(audio.currentTime % 60);
             timerDisplay.innerText = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
+
+            // STOP HARD A 40 SECONDES
+            if (audio.currentTime >= MAX_PREVIEW_TIME) {
+                audio.pause();
+                audio.currentTime = 0; // Retour au début
+                const icon = document.getElementById('play-icon');
+                icon.classList.replace('fa-pause', 'fa-play');
+                timerDisplay.innerText = "00:00";
+                progressBar.style.width = '0%';
+            }
         });
 
-        // Reset icon on end
+        // Reset icon on end (security fallback if file < 40s)
         audio.addEventListener('ended', () => {
             const icon = document.getElementById('play-icon');
             icon.classList.replace('fa-pause', 'fa-play');
