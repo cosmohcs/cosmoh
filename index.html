@@ -260,8 +260,29 @@
     <section id="shows" class="page-section bg-neutral-900">
         <button class="back-btn" onclick="navigateTo('home')">< REVENIR</button>
         <div class="section-content-wrapper">
-            <h2 class="text-6xl font-metal text-red-600 mb-12 border-b-2 border-white pb-2 mt-20">ARCHIVES</h2>
-            <div class="w-full max-w-2xl space-y-6">
+            
+            <h2 class="text-6xl font-metal text-white mb-8 mt-20 text-center">PROCHAINES DATES</h2>
+            <div class="w-full max-w-3xl space-y-6 mb-16">
+                <div class="border-4 border-red-600 p-6 bg-black hover:bg-white hover:text-black transition-colors group relative overflow-hidden shadow-[0_0_20px_rgba(255,0,0,0.3)]">
+                    <div class="absolute top-0 right-0 bg-red-600 text-black text-xs px-2 py-1 font-bold animate-pulse">BILLETTERIE DISPO</div>
+                    <div class="flex flex-col md:flex-row justify-between items-center md:items-end gap-6 text-center md:text-left">
+                        <div>
+                            <h3 class="text-5xl font-metal mb-2 text-red-600 group-hover:text-black">MOJI x SBOY</h3>
+                            <p class="font-pixel text-2xl mb-1 font-bold text-white group-hover:text-black">1ÈRE PARTIE : COSMOH</p>
+                            <p class="text-xl text-gray-400 group-hover:text-black font-sys">LA MADELEINE, BRUXELLES</p>
+                        </div>
+                        <div class="flex flex-col items-center md:items-end gap-4">
+                            <div class="text-4xl font-bold">06 FEV 2026</div>
+                            <a href="https://concert-mojisboy-lamadeleine.ticketlive.be/selection" target="_blank" class="inline-block bg-red-600 text-black font-pixel text-2xl px-8 py-3 border-2 border-transparent hover:bg-black hover:text-red-600 hover:border-red-600 transition-all cursor-pointer z-20">
+                                ACHETER TICKET
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="text-4xl font-metal text-gray-600 mb-8 border-b border-gray-700 pb-2">ARCHIVES</h2>
+            <div class="w-full max-w-2xl space-y-6 opacity-60 hover:opacity-100 transition-opacity">
                 <div class="border border-gray-700 p-6 hover:bg-white hover:text-black transition-colors group relative overflow-hidden">
                     <div class="absolute top-0 right-0 bg-red-600 text-white text-xs px-2 py-1 font-bold">COMPLET</div>
                     <div class="flex justify-between items-end">
@@ -283,8 +304,9 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-16 border-2 border-dashed border-red-600 p-4 animate-pulse mb-10">
-                <p class="text-2xl font-pixel text-red-600">>>> DATES DISPONIBLES PROCHAINEMENT <<<</p>
+            
+            <div class="mt-10 mb-10 text-gray-500 font-pixel">
+                <p>>> PLUS DE DATES BIENTÔT <<<</p>
             </div>
         </div>
     </section>
